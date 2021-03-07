@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../App.css';
 import TaskInsert from './TaskInsert';
 
-export default function TodoItem({ title, id, completed, onDeleteItem, onChangeCompleted }) {
-  // const [checked, setChecked] = useState(completed);
+export default function TodoItem({ title, id, completed, onDeleteItem, onChangeCompleted, onStatusChange }) {
 
   const classNames = ['todo'];
   if (completed) {
@@ -19,7 +18,7 @@ export default function TodoItem({ title, id, completed, onDeleteItem, onChangeC
 
       <input type="checkbox" checked={completed} onChange={() => onChangeCompleted(id, !completed)} />
 
-      <TaskInsert text={title} />
+      <TaskInsert text={title} id={id} onStatusChange={onStatusChange} />
 
       <button type="button" onClick={handleDeleteBtn}>delete</button>
 

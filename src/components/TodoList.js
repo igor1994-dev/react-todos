@@ -22,14 +22,30 @@ export default function TodoList(props) {
     setTodos(todos.filter(todos => todos.id !== id))
   }
 
+  function addItem() {
+    if (todoTitle === "" || todoTitle.trim().length === 0) {
+      return
+    } else {
+      setTodos([...todos, { id: Date.now(), title: todoTitle.trim(), completed: false }]);
+      setTodoTitle('');
+    }
+  }
+
   function changeCompeted(id, completed) {
     setTodos(todos.map((todo) => {
-
       if (id === todo.id) {
         todo.completed = completed;
       }
       return todo
+    }))
+  }
 
+  function changeTitle(id, text) {
+    setTodos(todos.map((todo) => {
+      if (id === todo.id) {
+        todo.title = text;
+      }
+      return todo
     }))
   }
 
@@ -44,11 +60,19 @@ export default function TodoList(props) {
           type="text"
           value={todoTitle}
           onChange={event => setTodoTitle(event.target.value)}
-          onKeyDown={keyDownHandler} />
+          onKeyDown={keyDownHandler}
+        />
+        <button type="button" onClick={addItem}>add todo</button>
       </div>
 
       <ul>
-        {todos.map(item => <TodoItem key={item.id} {...item} onDeleteItem={deleteItem} onChangeCompleted={changeCompeted} />)}
+        {todos.map(item => <TodoItem
+          key={item.id}
+          {...item}
+          onDeleteItem={deleteItem}
+          onStatusChange={changeTitle}
+          onChangeCompleted={changeCompeted}
+        />)}
       </ul>
     </>
   )
