@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import TodoItem from './TodoItem';
+import { InputGroup, Button, FormControl } from 'react-bootstrap'
+
 
 
 export default function TodoList(props) {
@@ -48,24 +50,30 @@ export default function TodoList(props) {
       return todo
     }))
   }
-
+  console.log(todos)
   return (
-    <>
-      <h1>Todos</h1>
+    <div className="container">
+      <h1 className="text-center">Todos</h1>
 
       <div>
-        <input
-          placeholder="Write your task"
-          autoFocus="autofocus"
-          type="text"
-          value={todoTitle}
-          onChange={event => setTodoTitle(event.target.value)}
-          onKeyDown={keyDownHandler}
-        />
-        <button type="button" onClick={addItem}>add todo</button>
+        <InputGroup className="mb-3">
+          <FormControl
+            type="text"
+            placeholder="write your todo"
+            aria-label="Recipient's username"
+            aria-describedby="basic-addon2"
+            autoFocus="autofocus"
+            value={todoTitle}
+            onChange={event => setTodoTitle(event.target.value)}
+            onKeyDown={keyDownHandler}
+          />
+          <InputGroup.Append className="w-30">
+            <Button variant="outline-secondary" onClick={addItem}>Add todo</Button>
+          </InputGroup.Append>
+        </InputGroup>
       </div>
 
-      <ul>
+      <ul className="pl-0">
         {todos.map(item => <TodoItem
           key={item.id}
           {...item}
@@ -74,6 +82,6 @@ export default function TodoList(props) {
           onChangeCompleted={changeCompeted}
         />)}
       </ul>
-    </>
+    </div>
   )
 }

@@ -1,5 +1,7 @@
-import React from 'react'
-import TodoList from './components/TodoList'
+import React from 'react';
+import TodoList from './components/TodoList';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   return (
@@ -7,8 +9,6 @@ function App() {
       <TodoList />
     </div>
   );
-
-
 }
 
 export default App;

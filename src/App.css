@@ -1,4 +1,18 @@
 .done {
   text-decoration: line-through;
-  color: red;
+  color: #6c757d;
+}
+.todo {
+  list-style-type: none;
+}
+.text {
+  color: #212529;
+  border: 1px solid #ced4da;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+}
+.item-wrap {
+  display: flex;
 }

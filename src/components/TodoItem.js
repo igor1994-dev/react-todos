@@ -1,27 +1,37 @@
 import React from 'react';
+import { InputGroup, Button } from 'react-bootstrap'
 import '../App.css';
 import TaskInsert from './TaskInsert';
 
+
 export default function TodoItem({ title, id, completed, onDeleteItem, onChangeCompleted, onStatusChange }) {
-
-  const classNames = ['todo'];
-  if (completed) {
-    classNames.push('done')
-  }
-
   function handleDeleteBtn() {
     onDeleteItem(id);
   }
 
   return (
-    <li className={classNames.join(' ')}>
+    <li className="todo">
+      <div className="container mb-1 px-0 item-wrap">
 
-      <input type="checkbox" checked={completed} onChange={() => onChangeCompleted(id, !completed)} />
+        <InputGroup.Checkbox
+          aria-label="Checkbox for following text input"
+          checked={completed}
+          onChange={() => onChangeCompleted(id, !completed)} />
 
-      <TaskInsert text={title} id={id} onStatusChange={onStatusChange} />
+        <TaskInsert
+          text={title}
+          id={id}
+          completed={completed}
+          onStatusChange={onStatusChange} />
 
-      <button type="button" onClick={handleDeleteBtn}>delete</button>
+        <InputGroup.Append>
+          <Button
+            variant="outline-secondary"
+            onClick={handleDeleteBtn}><span>Delete</span>
+          </Button>
+        </InputGroup.Append>
 
+      </div>
     </li>
   )
 }
