@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TodoItem from './TodoItem';
 import { InputGroup, Button, FormControl } from 'react-bootstrap'
 
@@ -21,7 +21,7 @@ export default function TodoList(props) {
   }
 
   function deleteItem(id) {
-    setTodos(todos.filter(todos => todos.id !== id))
+    setTodos(todos.filter(todos => todos.id !== id));
   }
 
   function addItem() {
@@ -50,7 +50,19 @@ export default function TodoList(props) {
       return todo
     }))
   }
-  console.log(todos)
+
+  function saveList() {
+    localStorage.setItem('todos', JSON.stringify(todos))
+  }
+  function clearList() {
+    localStorage.clear();
+    setTodos([]);
+  }
+  useEffect(() => {
+    const row = localStorage.getItem('todos') || '[]';
+    setTodos(JSON.parse(row));
+  }, [])
+
   return (
     <div className="container">
       <h1 className="text-center">Todos</h1>
@@ -82,6 +94,10 @@ export default function TodoList(props) {
           onChangeCompleted={changeCompeted}
         />)}
       </ul>
+      <div>
+        <Button variant="outline-success" onClick={saveList}>Save list</Button>{' '}
+        <Button variant="outline-danger" onClick={clearList}>Clear list</Button>{' '}
+      </div>
     </div>
   )
 }

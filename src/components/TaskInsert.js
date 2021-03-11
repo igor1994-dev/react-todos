@@ -39,14 +39,7 @@ function TaskInsert(props) {
                     onBlur={deactivateEditMode}
                     onKeyDown={keyDownHandler}
                 />
-                // <input
-                //     type="text"
-                //     autoFocus="autofocus"
-                //     value={props.text}
-                //     onChange={(event) => props.onStatusChange(props.id, event.target.value)}
-                //     onBlur={deactivateEditMode}
-                //     onKeyDown={keyDownHandler}
-                // />
+
             }
 
         </div>
