@@ -39,7 +39,6 @@ function TaskInsert(props) {
                     onBlur={deactivateEditMode}
                     onKeyDown={keyDownHandler}
                 />
-
             }
 
         </div>

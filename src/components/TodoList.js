@@ -1,67 +1,52 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import TodoItem from './TodoItem';
-import { InputGroup, Button, FormControl } from 'react-bootstrap'
+import { InputGroup, Button, FormControl } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
 
-
-export default function TodoList(props) {
-  const [todos, setTodos] = useState([]);
-
+function TodoList(props) {
+  const { todos } = props;   // const todos = props.todos;
   const [todoTitle, setTodoTitle] = useState('');
 
   const keyDownHandler = (event) => {
-    if (todoTitle === "" || todoTitle.trim().length === 0) {
-      return
-    } else {
-      if (event.code === "Enter") {
-        setTodos([...todos, { id: Date.now(), title: todoTitle.trim(), completed: false }]);
-        setTodoTitle('');
-      }
-    }
+    if (event.code === "Enter") addItem();
   }
 
   function deleteItem(id) {
-    setTodos(todos.filter(todos => todos.id !== id));
+    props.dispatch({
+      type: 'DELETE_ITEM', id: id
+    })
   }
 
   function addItem() {
-    if (todoTitle === "" || todoTitle.trim().length === 0) {
-      return
-    } else {
-      setTodos([...todos, { id: Date.now(), title: todoTitle.trim(), completed: false }]);
-      setTodoTitle('');
-    }
+    if (todoTitle === "" || todoTitle.trim().length === 0) return;
+
+    props.dispatch({
+      type: 'ADD_ITEM',
+      id: Date.now(), text: todoTitle.trim(), completed: false
+    });
+    setTodoTitle('');
   }
 
-  function changeCompeted(id, completed) {
-    setTodos(todos.map((todo) => {
-      if (id === todo.id) {
-        todo.completed = completed;
-      }
-      return todo
-    }))
+  function changeCompleted(id, completed) {
+    props.dispatch({
+      type: 'CHANGE_COMPLETED', id: id, completed: completed
+    })
   }
 
-  function changeTitle(id, text) {
-    setTodos(todos.map((todo) => {
-      if (id === todo.id) {
-        todo.title = text;
-      }
-      return todo
-    }))
+  function changeText(id, text) {
+    props.dispatch({
+      type: 'CHANGE_TEXT', id: id, text: text
+    })
   }
 
   function saveList() {
     localStorage.setItem('todos', JSON.stringify(todos))
   }
+
   function clearList() {
     localStorage.clear();
-    setTodos([]);
   }
-  useEffect(() => {
-    const row = localStorage.getItem('todos') || '[]';
-    setTodos(JSON.parse(row));
-  }, [])
 
   return (
     <div className="container">
@@ -90,14 +75,22 @@ export default function TodoList(props) {
           key={item.id}
           {...item}
           onDeleteItem={deleteItem}
-          onStatusChange={changeTitle}
-          onChangeCompleted={changeCompeted}
+          onStatusChange={changeText}
+          onChangeCompleted={changeCompleted}
         />)}
       </ul>
       <div>
-        <Button variant="outline-success" onClick={saveList}>Save list</Button>{' '}
-        <Button variant="outline-danger" onClick={clearList}>Clear list</Button>{' '}
+        <Button variant="outline-success" onClick={saveList}>Save changes to localstorage</Button>{' '}
+        <Button variant="outline-danger" onClick={clearList}>Clear localstorage</Button>{' '}
       </div>
     </div>
   )
 }
+
+function mapStateToProps(state) {
+  return {
+    todos: state.todos
+  }
+}
+
+export default connect(mapStateToProps)(TodoList);

@@ -4,7 +4,7 @@ import '../App.css';
 import TaskInsert from './TaskInsert';
 
 
-export default function TodoItem({ title, id, completed, onDeleteItem, onChangeCompleted, onStatusChange }) {
+export default function TodoItem({ text, id, completed, onDeleteItem, onChangeCompleted, onStatusChange }) {
   function handleDeleteBtn() {
     onDeleteItem(id);
   }
@@ -19,7 +19,7 @@ export default function TodoItem({ title, id, completed, onDeleteItem, onChangeC
           onChange={() => onChangeCompleted(id, !completed)} />
 
         <TaskInsert
-          text={title}
+          text={text}
           id={id}
           completed={completed}
           onStatusChange={onStatusChange} />
