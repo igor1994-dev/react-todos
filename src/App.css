@@ -9,10 +9,65 @@
   color: #212529;
   border: 1px solid #ced4da;
   height: 100%;
-  display: flex;
+  display: block;
   align-items: center;
   padding-left: 15px;
+  padding-right: 15px;
 }
-.item-wrap {
+.hide-button {
+  visibility: hidden;
+}
+.see-more {
+  width: 100px;
+	margin-top: 10px;
+	background-color: #fff;
+  border-width: 0;
+  border: 1px solid black ;
+  border-radius: 5px;
+}
+.see-more-wrap {
   display: flex;
+  justify-content: center;
+}
+.creation-date {
+  border: 1px solid #ced4da;
+  height: 100%;
+  text-align: center;
+}
+
+.input-group-text{
+  height: 100%;
+  justify-content: center;
+}
+.dots-hiden {
+display: none;
+}
+.dots-showed {
+  display:inline
+}
+
+.header {
+  background-color:   #ffe6ff;
+  height: 70px;
+}
+.header-title {
+  font-size: 30px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 70px;
+}
+.user-email {
+  display: flex;
+  align-items: center;
+    justify-content: center;
+}
+.logout {
+  display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.sign-btn {
+  align-items: center;
+    display: flex;
+    min-width: fit-content;
 }
