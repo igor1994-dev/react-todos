@@ -54,7 +54,7 @@ function mapStateToProps(state) {
     return {
         todos: state.todos,
         userEmail: state.auth.email,
-        isAuth: state.isAuth
+        isAuth: state.auth.isAuth
     }
 }
 
