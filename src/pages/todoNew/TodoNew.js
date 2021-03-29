@@ -55,7 +55,7 @@ function TodoNew(props) {
                 onKeyDown={keyDownHandler}
             />
 
-            <Button variant="outline-secondary" type="submit" onClick={addItem}>Add todo to list</Button>
+            <Button variant="outline-primary" type="submit" onClick={addItem}>Add todo to list</Button>
 
 
             <Link to='/todos'>

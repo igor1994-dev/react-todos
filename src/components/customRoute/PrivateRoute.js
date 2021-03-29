@@ -2,18 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
 
-function AuthRoute(props) {
-    const { issAuth } = props
+function PrivateRoute(props) {
+    const { isAuth } = props
 
-    if (issAuth) return <Redirect to='/todos' />
+    if (!isAuth) return <Redirect to='/signin' />
 
     return <Route {...props} />
 }
 
 function mapStateToProps(state) {
     return {
-        issAuth: state.auth.isAuth
+        isAuth: state.auth.isAuth
     }
 }
 
-export default connect(mapStateToProps)(AuthRoute);
+export default connect(mapStateToProps)(PrivateRoute);

@@ -5,7 +5,7 @@ import { Redirect, Route } from 'react-router-dom';
 function NotAuthRoute(props) {
     const { isAuth } = props
 
-    if (!isAuth) return <Redirect to="/signin"/>
+    if (isAuth) return <Redirect to="/todos"/>
 
     return <Route {...props} />
 }

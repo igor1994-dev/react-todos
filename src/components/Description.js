@@ -28,7 +28,7 @@ function Description(props) {
     function getParsedDescription(description) {
         const descriptionSplited = description.split(' ');
         const parsedDescription = descriptionSplited.map(item => {
-            if (item.indexOf('http://') !== -1) return `<a href="${item}" target="_blank">${item}</a>`;
+            if ((item.indexOf('http://') !== -1) || (item.indexOf('https://') !== -1)) return `<a href="${item}" target="_blank">${item}</a>`;
             return item;
         })
         return parsedDescription.join(' ');

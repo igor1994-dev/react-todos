@@ -8,7 +8,7 @@ import Todos from './pages/todos/Todos';
 import TodoNew from './pages/todoNew/TodoNew';
 import TodoEdit from './pages/todoEdit/TodoEdit';
 import NotAuthRoute from './components/customRoute/NotAuthRoute';
-import AuthRoute from './components/customRoute/AuthRoute';
+import PrivateRoute from './components/customRoute/PrivateRoute';
 
 
 function App() {
@@ -16,12 +16,13 @@ function App() {
     <div className="container">
       <Router>
         <Switch>
-          <AuthRoute exact path='/' component={Main} />
-          <AuthRoute exact path='/signin' component={SignIn} />
-          <AuthRoute exact path='/signup' component={SignUp} />
-          <NotAuthRoute exact path='/todos' component={Todos} />
-          <NotAuthRoute exact path='/todos/new' component={TodoNew} />
-          <NotAuthRoute exact path='/todos/edit/:id?' component={TodoEdit} />
+          <NotAuthRoute exact path='/' component={Main} />
+          <NotAuthRoute exact path='/signin' component={SignIn} />
+          <NotAuthRoute exact path='/signup' component={SignUp} />
+
+          <PrivateRoute exact path='/todos' component={Todos} />
+          <PrivateRoute exact path='/todos/new' component={TodoNew} />
+          <PrivateRoute exact path='/todos/edit/:id?' component={TodoEdit} />
         </Switch>
       </Router>
     </div>
