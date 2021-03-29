@@ -12,8 +12,8 @@ function TodoNew(props) {
     const [todoDescription, setTodoDescription] = useState('');
 
     function addItem(event) {
+        if (event) event.preventDefault();
         if (todoTitle === "" || todoTitle.trim().length === 0) return;
-        event.preventDefault();
         props.dispatch({
             type: 'ADD_ITEM',
             email: props.auth.email,
@@ -29,14 +29,6 @@ function TodoNew(props) {
 
     const keyDownHandler = (event) => {
         if (event.code === "Enter") addItem();
-    }
-
-    function saveList() {
-        localStorage.setItem('todos', JSON.stringify(todos))
-    }
-
-    function clearList() {
-        localStorage.clear();
     }
 
     return (
@@ -69,11 +61,6 @@ function TodoNew(props) {
             <Link to='/todos'>
                 <Button variant="outline-primary">Go back to Todos</Button>{' '}
             </Link>
-
-            <div>
-                <Button variant="outline-success" onClick={saveList}>Save changes to localstorage</Button>{' '}
-                <Button variant="outline-danger" onClick={clearList}>Clear localstorage</Button>{' '}
-            </div>
 
         </Fragment>
     )

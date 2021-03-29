@@ -49,7 +49,6 @@ function todos(state = initialState, action) {
         default:
             return state;
     }
-
 }
 
 export default persistReducer(persistConfig, todos);

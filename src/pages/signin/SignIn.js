@@ -57,11 +57,11 @@ function SignIn(props) {
                 </Form.Group>
 
                 <Button variant="primary" type="submit" onClick={logIn}>
-                    log in
+                    Log In
                 </Button>
 
                 <Link to='/signup'>
-                    <Button variant="primary" type="submit" className="ml-2">signup</Button>
+                    <Button variant="primary" type="submit" className="ml-2">Sign Up</Button>
                 </Link>
             </Form>
         </div>

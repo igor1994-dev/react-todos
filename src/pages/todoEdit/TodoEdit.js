@@ -13,7 +13,8 @@ function TodoEdit(props) {
 
     const [todoDescriptionChanged, setTodoDescriptionChanged] = useState(editableTodo.description);
 
-    function changeText() {
+    function changeText(event) {
+        event.preventDefault();
         props.dispatch({
             type: 'CHANGE_TEXT',
             id: editableTodo.id,
@@ -21,6 +22,7 @@ function TodoEdit(props) {
             description: todoDescriptionChanged.trim(),
             email: userEmail
         })
+        props.history.push('/todos')
     }
 
     return (
@@ -43,7 +45,7 @@ function TodoEdit(props) {
                 onChange={event => setTodoDescriptionChanged(event.target.value)}
             />
 
-            <Button variant="outline-success" onClick={changeText}>Save changes</Button>
+            <Button variant="outline-success" type="submit" onClick={changeText}>Save changes</Button>
         </>
     )
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import TodoItem from '../../components/TodoItem';
 import Header from '../../components/Header';
 import { Button } from 'react-bootstrap';
-import { Link, Redirect} from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 function Todos(props) {
@@ -28,7 +28,6 @@ function Todos(props) {
 
     if (!isAuth) return <Redirect to="/" />
 
-
     return (
         <div className="container">
             <Header />
@@ -42,10 +41,11 @@ function Todos(props) {
                     onChangeCompleted={changeCompleted}
                 />)}
             </ul>
-
-            <Link to='/todos/new'>
-                <Button variant="outline-primary">Add Todo</Button>{' '}
-            </Link>
+            <div className="add-todo-btn">
+                <Link to='/todos/new'>
+                    <Button variant="outline-primary">Add Todo</Button>{' '}
+                </Link>
+            </div>
         </div>
     )
 }

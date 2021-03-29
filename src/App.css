@@ -71,3 +71,8 @@ display: none;
     display: flex;
     min-width: fit-content;
 }
+
+.add-todo-btn {
+  display: flex;
+  justify-content: center;
+}

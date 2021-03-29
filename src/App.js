@@ -1,5 +1,4 @@
 import React from 'react';
-// import TodoList from './components/TodoList';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SignIn from './pages/signin/SignIn';
@@ -8,6 +7,8 @@ import Main from './pages/main/Main';
 import Todos from './pages/todos/Todos';
 import TodoNew from './pages/todoNew/TodoNew';
 import TodoEdit from './pages/todoEdit/TodoEdit';
+import NotAuthRoute from './components/customRoute/NotAuthRoute';
+import AuthRoute from './components/customRoute/AuthRoute';
 
 
 function App() {
@@ -15,13 +16,12 @@ function App() {
     <div className="container">
       <Router>
         <Switch>
-          <Route exact path='/' component={Main} />
-          {/* <Route path='/todolist' component={TodoList} /> */}
-          <Route path='/signin' component={SignIn} />
-          <Route path='/signup' component={SignUp} />
-          <Route exact path='/todos' component={Todos} />
-          <Route exact path='/todos/new' component={TodoNew} />
-          <Route exact path='/todos/edit/:id' component={TodoEdit} />
+          <AuthRoute exact path='/' component={Main} />
+          <AuthRoute exact path='/signin' component={SignIn} />
+          <AuthRoute exact path='/signup' component={SignUp} />
+          <NotAuthRoute exact path='/todos' component={Todos} />
+          <NotAuthRoute exact path='/todos/new' component={TodoNew} />
+          <NotAuthRoute exact path='/todos/edit/:id?' component={TodoEdit} />
         </Switch>
       </Router>
     </div>
