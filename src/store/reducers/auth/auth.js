@@ -1,5 +1,6 @@
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import types from './actionTypes';
 
 const initialState = {
     isAuth: false,
@@ -12,13 +13,16 @@ const persistConfig = {
 }
 
 function auth(state = initialState, action) {
+    const payload = action.payload;
+
     switch (action.type) {
-        case 'AUTH_SUCCESS':
+        case types.AUTH_SUCCESS:
             return {
                 isAuth: true,
-                email: action.email
+                email: payload.email
+                // email: action.email
             }
-        case 'LOGOUT':
+        case types.LOGOUT:
             return {
                 isAuth: false,
                 email: null

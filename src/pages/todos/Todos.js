@@ -2,45 +2,54 @@ import React from 'react';
 import TodoItem from '../../components/TodoItem';
 import Header from '../../components/Header';
 import { Button } from 'react-bootstrap';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import todosTypes from '../../store/reducers/todos/actionTypes';
 
 function Todos(props) {
-
-    const { userEmail, todos, isAuth } = props;   // const todos = props.todos;
+    const { userEmail, todos } = props;
 
     function changeCompleted(id, completed) {
         props.dispatch({
-            type: 'CHANGE_COMPLETED',
-            id: id,
-            completed: completed,
-            email: userEmail
+            type: todosTypes.CHANGE_COMPLETED,
+            payload: {
+                id: id,
+                completed: completed,
+                email: userEmail
+            }
+            // id: id,
+            // completed: completed,
+            // email: userEmail
         })
     }
 
     function deleteItem(id) {
         props.dispatch({
-            type: 'DELETE_ITEM',
-            id: id,
-            email: userEmail
+            type: todosTypes.DELETE_ITEM,
+            payload: {
+                id: id,
+                email: userEmail
+            }
+
         })
     }
-
-    if (!isAuth) return <Redirect to="/" />
 
     return (
         <div className="container">
             <Header />
             <h1 className="text-center">Todos</h1>
 
-            <ul className="pl-0">
-                {todos[props.userEmail].map(item => <TodoItem
-                    key={item.id}
-                    {...item}
-                    onDeleteItem={deleteItem}
-                    onChangeCompleted={changeCompleted}
-                />)}
-            </ul>
+            {todos[props.userEmail] !== undefined &&
+                <ul className="pl-0">
+                    {todos[props.userEmail].map(item => <TodoItem
+                        key={item.id}
+                        {...item}
+                        onDeleteItem={deleteItem}
+                        onChangeCompleted={changeCompleted}
+                    />)}
+                </ul>
+            }
+
             <div className="add-todo-btn">
                 <Link to='/todos/new'>
                     <Button variant="outline-primary">Add Todo</Button>{' '}
@@ -53,8 +62,7 @@ function Todos(props) {
 function mapStateToProps(state) {
     return {
         todos: state.todos,
-        userEmail: state.auth.email,
-        isAuth: state.auth.isAuth
+        userEmail: state.auth.email
     }
 }
 

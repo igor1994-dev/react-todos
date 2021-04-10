@@ -3,10 +3,11 @@ import { Fragment } from 'react';
 import { FormControl, Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import todosTypes from '../../store/reducers/todos/actionTypes';
 
 
 function TodoNew(props) {
-    const { todos } = props;
+    // const { todos } = props;
     const [todoTitle, setTodoTitle] = useState('');
 
     const [todoDescription, setTodoDescription] = useState('');
@@ -15,13 +16,21 @@ function TodoNew(props) {
         if (event) event.preventDefault();
         if (todoTitle === "" || todoTitle.trim().length === 0) return;
         props.dispatch({
-            type: 'ADD_ITEM',
-            email: props.auth.email,
-            id: Date.now(),
-            text: todoTitle.trim(),
-            completed: false,
-            description: todoDescription.trim(),
-            creationDate: new Date().toLocaleDateString()
+            type: todosTypes.ADD_ITEM,
+            payload: {
+                email: props.auth.email,
+                id: Date.now(),
+                text: todoTitle.trim(),
+                completed: false,
+                description: todoDescription.trim(),
+                creationDate: new Date().toLocaleDateString()
+            }
+            // email: props.auth.email,
+            // id: Date.now(),
+            // text: todoTitle.trim(),
+            // completed: false,
+            // description: todoDescription.trim(),
+            // creationDate: new Date().toLocaleDateString()
         });
         setTodoTitle('');
         setTodoDescription('');

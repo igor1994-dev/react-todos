@@ -41,7 +41,7 @@ function Description(props) {
             <div className="see-more-wrap">
                 <button
                     className={seeMoreBtnClasses.join(" ")}
-                    onClick={toggleDescriptionButton}>See more
+                    onClick={toggleDescriptionButton}>{checkDescriptionStatus ? 'See more' : 'See less'}
                 </button>
             </div>
         </div>

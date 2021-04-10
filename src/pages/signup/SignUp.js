@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import usersTypes from '../../store/reducers/users/actionTypes';
 
 function SignUp(props) {
 
@@ -12,9 +13,13 @@ function SignUp(props) {
     function addUser(event) {
         event.preventDefault();
         props.dispatch({
-            type: 'ADD_USER',
-            login: userEmail,
-            password: userPassword
+            type: usersTypes.ADD_USER,
+            payload: {
+                login: userEmail,
+                password: userPassword
+            }
+            // login: userEmail,
+            // password: userPassword
         })
         setUserEmail('');
         setUserPassword('');

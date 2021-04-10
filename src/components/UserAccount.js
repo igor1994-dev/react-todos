@@ -2,13 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import '../App.css';
+import authTypes from '../store/reducers/auth/actionTypes';
 
 function UserAccount(props) {
 
     function logout(event) {
         event.preventDefault();
         props.dispatch({
-            type: 'LOGOUT'
+            type: authTypes.LOGOUT
         })
     }
 

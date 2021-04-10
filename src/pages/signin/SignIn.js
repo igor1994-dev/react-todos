@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
+import authTypes from '../../store/reducers/auth/actionTypes';
 
 function SignIn(props) {
 
@@ -17,8 +18,9 @@ function SignIn(props) {
             alert('The login or password is incorrect')
         } else if ((authEmail === emailCheck.login) & (authPassword === passwordCheck.password)) {
             props.dispatch({
-                type: 'AUTH_SUCCESS',
-                email: authEmail
+                type: authTypes.AUTH_SUCCESS,
+                payload: { email: authEmail }
+                // email: authEmail
             })
             setAuthEmail('');
             setAuthPassword('');

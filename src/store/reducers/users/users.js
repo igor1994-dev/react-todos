@@ -1,5 +1,6 @@
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import usersTypes from './actionTypes';
 
 const initialState = { list: [] };
 
@@ -9,13 +10,15 @@ const persistConfig = {
 }
 
 function users(state = initialState, action) {
+    const payload = action.payload;
+
     switch (action.type) {
-        case 'ADD_USER':
+        case usersTypes.ADD_USER:
             return {
                 ...state,
                 list: [...state.list, {
-                    login: action.login,
-                    password: action.password
+                    login: payload.login,
+                    password: payload.password
                 }]
             }
         default:

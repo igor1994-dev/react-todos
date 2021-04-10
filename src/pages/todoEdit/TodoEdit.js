@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { FormControl, Form, Button } from 'react-bootstrap';
+import todosTypes from '../../store/reducers/todos/actionTypes';
 
 function TodoEdit(props) {
     const { userEmail, todos } = props;
@@ -16,11 +17,17 @@ function TodoEdit(props) {
     function changeText(event) {
         event.preventDefault();
         props.dispatch({
-            type: 'CHANGE_TEXT',
-            id: editableTodo.id,
-            text: todoTitleChanged.trim(),
-            description: todoDescriptionChanged.trim(),
-            email: userEmail
+            type: todosTypes.CHANGE_TEXT,
+            payload: {
+                id: editableTodo.id,
+                text: todoTitleChanged.trim(),
+                description: todoDescriptionChanged.trim(),
+                email: userEmail
+            }
+            // id: editableTodo.id,
+            // text: todoTitleChanged.trim(),
+            // description: todoDescriptionChanged.trim(),
+            // email: userEmail
         })
         props.history.push('/todos')
     }
