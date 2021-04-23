@@ -1,30 +1,44 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import { Form, Button, Spinner } from 'react-bootstrap';
+import { connect, useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import usersTypes from '../../store/reducers/users/actionTypes';
+import usersTypes from '../../redux/users/actionTypes';
+import * as authActions from '../../redux/auth/actions';
+
+import '../../App.css';
+
+import Preloader from '../../components/Preloader';
 
 function SignUp(props) {
-
+    const { isLoading, signup } = props;
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const [isRedirect, setIsRedirect] = useState(false);
 
-    function addUser(event) {
+    // const users = useSelector(state => state.users);
+    // const dispatch = useDispatch();
+
+    // function addUser(event) {
+    //     event.preventDefault();
+    //     props.dispatch({
+    //         type: usersTypes.ADD_USER,
+    //         payload: {
+    //             login: userEmail,
+    //             password: userPassword
+    //         }
+    //         // login: userEmail,
+    //         // password: userPassword
+    //     })
+    //     setUserEmail('');
+    //     setUserPassword('');
+    //     let toSigninPage = window.confirm('your account had been created. Please log in to continue');
+    //     setIsRedirect(toSigninPage)
+    // }
+
+    function handleSubmit(event) {
         event.preventDefault();
-        props.dispatch({
-            type: usersTypes.ADD_USER,
-            payload: {
-                login: userEmail,
-                password: userPassword
-            }
-            // login: userEmail,
-            // password: userPassword
-        })
-        setUserEmail('');
-        setUserPassword('');
-        let toSigninPage = window.confirm('your account had been created. Please log in to continue');
-        setIsRedirect(toSigninPage)
+        // dispatch(authActions.signup(userEmail, userPassword));
+        signup(userEmail, userPassword);
     }
 
     if (isRedirect) return <Redirect to="/" />
@@ -33,7 +47,9 @@ function SignUp(props) {
         <div className="container">
             <h1 className="text-center">Sign up</h1>
 
-            <Form>
+            <Preloader isLoading={isLoading} />
+
+            <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
 
@@ -61,9 +77,10 @@ function SignUp(props) {
 
                 </Form.Group>
 
-                <Button variant="primary" type="submit" onClick={addUser}>
+                <Button variant="primary" type="submit">
                     Submit
                 </Button>
+
             </Form>
         </div>
     )
@@ -71,8 +88,19 @@ function SignUp(props) {
 
 function mapStateToProps(state) {
     return {
-        users: state.users
+        users: state.users,
+        isLoading: state.auth.isLoading,
     }
 }
 
-export default connect(mapStateToProps)(SignUp);
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         signup: (email, password) => dispatch(authActions.signup(email, password))
+//     }
+// }
+
+const mapDispatchToProps = {
+    signup: authActions.signup
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

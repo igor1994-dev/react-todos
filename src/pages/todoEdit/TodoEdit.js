@@ -1,35 +1,47 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { FormControl, Form, Button } from 'react-bootstrap';
-import todosTypes from '../../store/reducers/todos/actionTypes';
+import todosTypes from '../../redux/todos/actionTypes';
+
+import * as todosActions from '../../redux/todos/actions';
 
 function TodoEdit(props) {
-    const { userEmail, todos } = props;
-
+    const { userEmail, todos, changeTodo } = props;
     const todoId = props.match.params.id;
+    const currentDescription = useSelector(state => state.todos.list).find(item => item.id === parseInt(todoId)).description;
+    const currentTitle = useSelector(state => state.todos.list).find(item => item.id === parseInt(todoId)).name;
 
-    const editableTodo = todos[userEmail].find(item => item.id === parseInt(todoId));
+    // const editableTodo = todos[userEmail].find(item => item.id === parseInt(todoId));
 
-    const [todoTitleChanged, setTodoTitleChanged] = useState(editableTodo.text);
+    // const [todoTitleChanged, setTodoTitleChanged] = useState(editableTodo.text);
+    // const [todoDescriptionChanged, setTodoDescriptionChanged] = useState(editableTodo.description);
 
-    const [todoDescriptionChanged, setTodoDescriptionChanged] = useState(editableTodo.description);
+    const [todoTitleChanged, setTodoTitleChanged] = useState(currentTitle);
+    const [todoDescriptionChanged, setTodoDescriptionChanged] = useState(currentDescription);
 
-    function changeText(event) {
+    // function changeText(event) {
+    //     event.preventDefault();
+    //     props.dispatch({
+    //         type: todosTypes.CHANGE_TEXT,
+    //         payload: {
+    //             id: editableTodo.id,
+    //             text: todoTitleChanged.trim(),
+    //             description: todoDescriptionChanged.trim(),
+    //             email: userEmail
+    //         }
+    //     })
+    //     props.history.push('/todos')
+    // }
+
+    function changeTodoHandler(event) {
         event.preventDefault();
-        props.dispatch({
-            type: todosTypes.CHANGE_TEXT,
-            payload: {
-                id: editableTodo.id,
-                text: todoTitleChanged.trim(),
-                description: todoDescriptionChanged.trim(),
-                email: userEmail
-            }
-            // id: editableTodo.id,
-            // text: todoTitleChanged.trim(),
-            // description: todoDescriptionChanged.trim(),
-            // email: userEmail
-        })
-        props.history.push('/todos')
+        changeTodo(
+            todoId,
+            todoTitleChanged.trim(),
+            false,
+            todoDescriptionChanged.trim()
+        )
+        props.history.push('/todos');
     }
 
     return (
@@ -41,18 +53,24 @@ function TodoEdit(props) {
                 aria-label="Recipient's username"
                 aria-describedby="basic-addon2"
                 autoFocus="autofocus"
-                defaultValue={editableTodo.text}
+                defaultValue={currentTitle}
                 onChange={event => setTodoTitleChanged(event.target.value)}
             />
 
             <Form.Control
                 as="textarea"
                 rows={6}
-                defaultValue={editableTodo.description}
+                // defaultValue={editableTodo.description}
+                defaultValue={currentDescription}
                 onChange={event => setTodoDescriptionChanged(event.target.value)}
             />
 
-            <Button variant="outline-success" type="submit" onClick={changeText}>Save changes</Button>
+            <Button
+                variant="outline-success"
+                type="submit"
+                // onClick={changeText}
+                onClick={changeTodoHandler}
+            >Save changes</Button>
         </>
     )
 }
@@ -64,4 +82,6 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(TodoEdit);
+const mapDispatchToProps = { changeTodo: todosActions.changeTodo }
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoEdit);

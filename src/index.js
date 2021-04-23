@@ -5,7 +5,7 @@ import './App.css';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Provider } from 'react-redux';
-import store, { persistor } from './store/index';
+import store, { persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react'
 
 

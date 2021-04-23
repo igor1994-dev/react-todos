@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import '../App.css';
-import authTypes from '../store/reducers/auth/actionTypes';
+import authTypes from '../redux/auth/actionTypes';
 
 function UserAccount(props) {
-
+// console.log('useraccount', props)
     function logout(event) {
         event.preventDefault();
         props.dispatch({

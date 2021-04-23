@@ -1,4 +1,0 @@
-export default {
-    AUTH_SUCCESS: "AUTH/AUTH_SUCCESS",
-    LOGOUT: "AUTH/LOGOUT"
-}
