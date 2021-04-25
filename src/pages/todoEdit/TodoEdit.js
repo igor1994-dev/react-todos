@@ -5,8 +5,11 @@ import todosTypes from '../../redux/todos/actionTypes';
 
 import * as todosActions from '../../redux/todos/actions';
 
+import FileUpload from '../../components/FileUpload';
+
+
 function TodoEdit(props) {
-    const { userEmail, todos, changeTodo } = props;
+    const { userEmail, todos, changeTodo, filesUpload } = props;
     const todoId = props.match.params.id;
     const currentDescription = useSelector(state => state.todos.list).find(item => item.id === parseInt(todoId)).description;
     const currentTitle = useSelector(state => state.todos.list).find(item => item.id === parseInt(todoId)).name;
@@ -65,6 +68,10 @@ function TodoEdit(props) {
                 onChange={event => setTodoDescriptionChanged(event.target.value)}
             />
 
+
+            <FileUpload filesUpload={filesUpload} id={todoId}/>
+
+
             <Button
                 variant="outline-success"
                 type="submit"
@@ -82,6 +89,10 @@ function mapStateToProps(state) {
     }
 }
 
-const mapDispatchToProps = { changeTodo: todosActions.changeTodo }
+const mapDispatchToProps = {
+    changeTodo: todosActions.changeTodo,
+    filesUpload: todosActions.filesUpload
+
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoEdit);

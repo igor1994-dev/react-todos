@@ -7,8 +7,8 @@ import { connect } from 'react-redux';
 import todosTypes from '../../redux/todos/actionTypes';
 import * as todosActions from '../../redux/todos/actions';
 import Preloader from '../../components/Preloader';
-
 import Paginator from '../../components/Paginator';
+// import FileUpload from '../../components/FileUpload';
 
 
 function Todos(props) {
@@ -57,7 +57,7 @@ function Todos(props) {
             <Header />
             <h1 className="text-center">Todos</h1>
 
-            <Paginator pageSize={pageSize} todosTotalCount={todosTotalCount} currentPage={currentPage} setCurrentPage={onPaginationChange}/>
+            <Paginator pageSize={pageSize} todosTotalCount={todosTotalCount} currentPage={currentPage} setCurrentPage={onPaginationChange} />
 
             {/* {todos[props.userEmail] !== undefined &&
                 <ul className="pl-0">
@@ -88,6 +88,8 @@ function Todos(props) {
                     <Button variant="outline-primary">Add Todo</Button>{' '}
                 </Link>
             </div>
+
+
         </div>
     )
 }

@@ -4,14 +4,16 @@ import { FormControl, Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import todosTypes from '../../redux/todos/actionTypes';
-
 import * as todosActions from '../../redux/todos/actions';
+
+// import FileUpload from '../../components/FileUpload';
+
 
 
 
 function TodoNew(props) {
     const { addTodo } = props;
-    // console.log('addTodo props',  addTodo)
+    // console.log('addTodo props',  filesUpload)
 
     const [todoTitle, setTodoTitle] = useState('');
     const [todoDescription, setTodoDescription] = useState('');
@@ -76,6 +78,9 @@ function TodoNew(props) {
                 onKeyDown={keyDownHandler}
             />
 
+            {/* <FileUpload filesUpload={filesUpload}/> */}
+
+
             <Button
                 variant="outline-primary"
                 type="submit"
@@ -100,7 +105,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-    addTodo: todosActions.addTodo
+    addTodo: todosActions.addTodo,
+    // filesUpload: todosActions.filesUpload
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoNew);

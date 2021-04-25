@@ -4,6 +4,8 @@ import '../App.css';
 import Description from './Description';
 import { withRouter } from 'react-router';
 
+
+
 function TodoItem({ description, creationDate, text, id, completed, onDeleteItem, onChangeCompleted, onStatusChange, history, match }) {
   function handleDelete() {
     onDeleteItem(id);
@@ -37,6 +39,8 @@ function TodoItem({ description, creationDate, text, id, completed, onDeleteItem
         </div>
 
         <Description description={description} />
+
+
 
         <InputGroup.Append>
           <Button

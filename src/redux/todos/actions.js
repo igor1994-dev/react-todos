@@ -12,6 +12,9 @@ export function addTodo(name, description, expired_at) {
             description,
             expired_at
         })
+            .then(response => {
+                console.log('response', response)
+            })
             .catch(error => {
                 if (error.response && error.response.status === 422) {
                     error.response.data.forEach(validationError => {
@@ -99,52 +102,20 @@ export function changeTodo(id, name, is_done, description) {
 }
 
 
-export function setCurrentPage(currentPage) {
-    return (dispatch, getState) => {
-        const { pageSize } = getState().todos;
+export function filesUpload(formData, id) {
+    return (dispatch) => {
 
-        const offset = currentPage === 1 ? 0 : currentPage * pageSize - pageSize;
-
-        dispatch({
-            type: actionTypes.SET_CURRENT_PAGE,
-            payload: { currentPage: currentPage }
-        });
-
-        dispatch({
-            type: actionTypes.LOAD_ITEMS_REQUEST,
-        });
-
-        api.get('/tasks', {
-            params: {
-                limit: pageSize,
-                offset: offset
-            }
-        })
+        api.post(`/files/upload/tasks/${id}`, formData)
             .then(response => {
-                dispatch({
-                    type: actionTypes.LOAD_ITEMS_SUCCESS,
-                    payload: {
-                        list: response.data.data,
-                        todosTotalCount: parseInt(response.data.total),
-                        currentPage: currentPage
-                    }
-                })
+                alert('File has been successfully uploaded');
             })
             .catch(error => {
-                console.log('GET todos error', error);
+                if (error.response && error.response.status === 422) {
+                    error.response.data.forEach(validationError => {
+                        alert(validationError.message);
+                    })
+                }
             })
     }
 }
 
-
-
-
-// export function setCurrentPage(currentPage) {
-//     return (dispatch) => {
-
-//         dispatch({
-//             type: actionTypes.SET_CURRENT_PAGE,
-//             payload: { currentPage: currentPage }
-//         })
-//     }
-// }
