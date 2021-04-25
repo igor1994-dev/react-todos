@@ -52,7 +52,7 @@ export function loadTodos(currentPage = 1) {
                 })
             })
             .catch(error => {
-                console.log('GET todos error', error);
+                // console.log('GET todos error', error);
                 dispatch({
                     type: actionTypes.LOAD_ITEMS_FAILURE,
                 })
@@ -84,7 +84,15 @@ export function changeTodo(id, name, is_done, description) {
             description
         })
             .then(response => {
-                dispatch({ type: actionTypes.CHANGE_TEXT })
+                dispatch({
+                    type: actionTypes.CHANGE_TODO,
+                    payload: {
+                        id,
+                        name,
+                        is_done,
+                        description
+                    }
+                })
             })
             .catch(error => {
                 if (error.response && error.response.status === 422) {
@@ -98,53 +106,19 @@ export function changeTodo(id, name, is_done, description) {
     }
 }
 
-
-export function setCurrentPage(currentPage) {
-    return (dispatch, getState) => {
-        const { pageSize } = getState().todos;
-
-        const offset = currentPage === 1 ? 0 : currentPage * pageSize - pageSize;
-
-        dispatch({
-            type: actionTypes.SET_CURRENT_PAGE,
-            payload: { currentPage: currentPage }
-        });
-
-        dispatch({
-            type: actionTypes.LOAD_ITEMS_REQUEST,
-        });
-
-        api.get('/tasks', {
-            params: {
-                limit: pageSize,
-                offset: offset
-            }
-        })
-            .then(response => {
-                dispatch({
-                    type: actionTypes.LOAD_ITEMS_SUCCESS,
-                    payload: {
-                        list: response.data.data,
-                        todosTotalCount: parseInt(response.data.total),
-                        currentPage: currentPage
-                    }
-                })
-            })
-            .catch(error => {
-                console.log('GET todos error', error);
-            })
-    }
-}
-
-
-
-
-// export function setCurrentPage(currentPage) {
+// export function loadTodoById(id) {
 //     return (dispatch) => {
+//         dispatch({ type: actionTypes.LOAD_ITEM_BY_ID_REQUEST });
 
-//         dispatch({
-//             type: actionTypes.SET_CURRENT_PAGE,
-//             payload: { currentPage: currentPage }
-//         })
+//         api.get(`/tasks/${id}`)
+//             .then(response => {
+//                 dispatch({
+//                     type: actionTypes.LOAD_ITEM_BY_ID_SUCCESS,
+//                     payload: {
+//                         id,
+//                         responseData: response.data
+//                     }
+//                 })
+//             })
 //     }
 // }

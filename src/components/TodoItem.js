@@ -4,15 +4,17 @@ import '../App.css';
 import Description from './Description';
 import { withRouter } from 'react-router';
 
-function TodoItem({ description, creationDate, text, id, completed, onDeleteItem, onChangeCompleted, onStatusChange, history, match }) {
+function TodoItem({ description, creationDate, text, id, completed, onDeleteItem, onChangeCompleted, onStatusChange, history, changeTodo, is_done }) {
   function handleDelete() {
     onDeleteItem(id);
   }
 
   const classNames = ["text"];
-  if (completed) {
+  if (is_done) {
     classNames.push('done')
   }
+
+  // console.log('is donnne', is_done)
 
   return (
     <li className="todo">
@@ -22,8 +24,12 @@ function TodoItem({ description, creationDate, text, id, completed, onDeleteItem
           <div className="col-1 pr-0">
             <InputGroup.Checkbox
               aria-label="Checkbox for following text input"
-              checked={completed}
-              onChange={() => onChangeCompleted(id, !completed)}
+
+              // checked={completed}
+              // onChange={() => onChangeCompleted(id, !completed)}
+
+              checked={is_done}
+              onChange={() => changeTodo(id, text, !is_done, description)}
             />
           </div>
 

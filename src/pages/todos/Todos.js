@@ -12,7 +12,7 @@ import Paginator from '../../components/Paginator';
 
 
 function Todos(props) {
-    const { userEmail, todos, loadTodos, deleteTodo, pageSize, todosTotalCount, currentPage } = props;
+    const { userEmail, todos, loadTodos, deleteTodo, pageSize, todosTotalCount, currentPage, changeTodo } = props;
 
     useEffect(() => { loadTodos() }, [])
 
@@ -20,18 +20,18 @@ function Todos(props) {
         loadTodos(page);
     }
 
-    // console.log('Todos props', props)
+    // console.log('Todos props', todos)
 
-    function changeCompleted(id, completed) {
-        props.dispatch({
-            type: todosTypes.CHANGE_COMPLETED,
-            payload: {
-                id: id,
-                completed: completed,
-                email: userEmail
-            }
-        })
-    }
+    // function changeCompleted(id, completed) {
+    //     props.dispatch({
+    //         type: todosTypes.CHANGE_COMPLETED,
+    //         payload: {
+    //             id: id,
+    //             completed: completed,
+    //             email: userEmail
+    //         }
+    //     })
+    // }
 
     // function deleteItem(id) {
     //     props.dispatch({
@@ -79,6 +79,8 @@ function Todos(props) {
                         text={item.name}
                         {...item}
                         onDeleteItem={deleteItem}
+
+                        changeTodo={changeTodo}
                     />)}
                 </ul>
             }
@@ -108,6 +110,8 @@ const mapDispatchToProps = {
     loadTodos: todosActions.loadTodos,
     deleteTodo: todosActions.deleteTodo,
     // setCurrentPage: todosActions.setCurrentPage
+    // changeTodoStatus: todosActions.changeTodoStatus,
+    changeTodo: todosActions.changeTodo
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todos);

@@ -5,7 +5,8 @@ import todosTypes from './actionTypes';
 const persistConfig = {
     // key: 'users',
     key: 'todos',
-    storage
+    storage,
+    blacklist: ['list']
 }
 
 const initialState = {
@@ -63,9 +64,23 @@ function todos(state = initialState, action) {
                 // [payload.email]: state[payload.email].filter(todo => todo.id !== payload.id)
             }
 
-        case todosTypes.CHANGE_TEXT:
+        case todosTypes.CHANGE_TODO:
             return {
                 ...state,
+                list: [...state.list].map(todo => {
+                    if (payload.id === todo.id) {
+                        return {
+                            ...todo,
+                            name: payload.name,
+                            description: payload.description,
+                            is_done: payload.is_done
+                        }
+                    }
+                    return todo;
+                })
+
+
+                // list: [...state.list, ]
                 // [payload.email]: state[payload.email].map(todo => {
                 //     if (payload.id === todo.id) {
                 //         todo.text = payload.text;
@@ -82,14 +97,38 @@ function todos(state = initialState, action) {
             }
 
 
-        case todosTypes.CHANGE_COMPLETED:
-            return {
-                ...state,
-                [payload.email]: state[payload.email].map(todo => {
-                    if (payload.id === todo.id) todo.completed = payload.completed;
-                    return todo;
-                })
-            }
+        // case todosTypes.CHANGE_COMPLETED:
+        //     return {
+        //         ...state,
+        //         [payload.email]: state[payload.email].map(todo => {
+        //             if (payload.id === todo.id) todo.completed = payload.completed;
+        //             return todo;
+        //         })
+        //     }
+
+
+
+        // case todosTypes.LOAD_ITEM_BY_ID_REQUEST:
+        //     return {
+        //         ...state,
+        //         isLoading: true
+        //     }
+        // case todosTypes.LOAD_ITEM_BY_ID_SUCCESS:
+        //     return {
+        //         ...state,
+        //         isLoading: false,
+        //         list: [...state.list].map(todo => {
+        //             if (payload.id === todo.id) {
+        //                 return {
+        //                     ...payload.responseData
+        //                 }
+        //             }
+        //             return todo;
+        //         })
+        //     }
+
+
+
         default:
             return state;
     }
