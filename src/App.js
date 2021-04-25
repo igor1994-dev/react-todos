@@ -12,7 +12,6 @@ import TodoEdit from './pages/todoEdit/TodoEdit';
 import NotAuthRoute from './components/customRoute/NotAuthRoute';
 import PrivateRoute from './components/customRoute/PrivateRoute';
 
-
 class App extends React.Component {
   componentDidMount() {
     api.defaults.headers.common['Authorization'] = this.props.token;

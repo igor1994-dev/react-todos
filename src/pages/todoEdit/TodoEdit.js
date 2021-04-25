@@ -6,16 +6,40 @@ import todosTypes from '../../redux/todos/actionTypes';
 import * as todosActions from '../../redux/todos/actions';
 
 import api from '../../services/api';
+import FileUpload from '../../components/FileUpload';
+
+import FileItem from '../../components/FileItem';
 
 
 function TodoEdit(props) {
-
-    const { userEmail, todos, changeTodo, is_done } = props;
+    const { changeTodo, is_done } = props;
     const todoId = props.match.params.id;
 
     const [responseData, setReaponseData] = useState({})
     const [todoTitleChanged, setTodoTitleChanged] = useState(``);
     const [todoDescriptionChanged, setTodoDescriptionChanged] = useState('');
+
+    const [files, setFiles] = useState([]);
+
+    function filesUpload(formData, id) {
+        api.post(`/files/upload/tasks/${id}`, formData)
+            .then(response => {
+                alert('File has been successfully uploaded');
+
+                setFiles([...files, {
+                    id: Date.now(),
+                    created_at: new Date().toLocaleString(),
+                    name: response.data
+                }])
+            })
+            .catch(error => {
+                if (error.response && error.response.status === 422) {
+                    error.response.data.forEach(validationError => {
+                        alert(validationError.message);
+                    })
+                }
+            })
+    }
 
     function loadTodoById(id) {
         api.get(`/tasks/${id}`)
@@ -26,10 +50,17 @@ function TodoEdit(props) {
             })
     }
 
-    useEffect(() => loadTodoById(todoId), []);
+    function loadTodoFiles(id) {
+        api.get(`/tasks/${id}/files`)
+            .then(response => {
+                setFiles([...response.data.data])
+            })
+    }
 
-    // const currentDescription = useSelector(state => state.todos.list).find(item => item.id === parseInt(todoId)).description;
-    // const currentTitle = useSelector(state => state.todos.list).find(item => item.id === parseInt(todoId)).name;
+    useEffect(() => {
+        loadTodoById(todoId);
+        loadTodoFiles(todoId);
+    }, []);
 
     const currentDescription = responseData.description;
     const currentTitle = responseData.name;
@@ -64,6 +95,18 @@ function TodoEdit(props) {
                 defaultValue={currentDescription}
                 onChange={event => setTodoDescriptionChanged(event.target.value)}
             />
+
+            <FileUpload filesUpload={filesUpload} id={todoId} />
+
+            <ul className="pl-1">
+                {
+                    files.map(item => <FileItem
+                        key={item.id}
+                        created_at={item.created_at}
+                        name={item.name}
+                    />)
+                }
+            </ul>
 
             <Button
                 variant="outline-success"

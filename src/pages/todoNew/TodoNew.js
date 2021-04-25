@@ -3,15 +3,10 @@ import { Fragment } from 'react';
 import { FormControl, Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import todosTypes from '../../redux/todos/actionTypes';
-
 import * as todosActions from '../../redux/todos/actions';
-
-
 
 function TodoNew(props) {
     const { addTodo } = props;
-    // console.log('addTodo props',  addTodo)
 
     const [todoTitle, setTodoTitle] = useState('');
     const [todoDescription, setTodoDescription] = useState('');
@@ -29,26 +24,7 @@ function TodoNew(props) {
         setTodoDescription('');
     }
 
-    // function addItem(event) {
-    //     if (event) event.preventDefault();
-    //     if (todoTitle === "" || todoTitle.trim().length === 0) return;
-    //     props.dispatch({
-    //         type: todosTypes.ADD_ITEM,
-    //         payload: {
-    //             email: props.auth.email,
-    //             id: Date.now(),
-    //             text: todoTitle.trim(),
-    //             completed: false,
-    //             description: todoDescription.trim(),
-    //             creationDate: new Date().toLocaleDateString()
-    //         }
-    //     });
-    //     setTodoTitle('');
-    //     setTodoDescription('');
-    // }
-
     const keyDownHandler = (event) => {
-        // if (event.code === "Enter") addItem();
         if (event.code === "Enter") handleAddTodo();
     }
 
@@ -79,10 +55,8 @@ function TodoNew(props) {
             <Button
                 variant="outline-primary"
                 type="submit"
-                // onClick={addItem}
                 onClick={handleAddTodo}
             >Add todo to list</Button>
-
 
             <Link to='/todos'>
                 <Button variant="outline-primary">Go back to Todos</Button>{' '}
@@ -100,7 +74,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-    addTodo: todosActions.addTodo
+    addTodo: todosActions.addTodo,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoNew);

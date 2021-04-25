@@ -5,9 +5,8 @@ import '../App.css';
 import authTypes from '../redux/auth/actionTypes';
 
 function UserAccount(props) {
-// console.log('useraccount', props)
     function logout(event) {
-        event.preventDefault();
+        // event.preventDefault();
         props.dispatch({
             type: authTypes.LOGOUT
         })

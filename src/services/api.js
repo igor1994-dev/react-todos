@@ -6,27 +6,3 @@ const api = axios.create({
 })
 
 export default api;
-
-/*
-    dispatch({type: 'GET_TODOS_REQUEST'}) // isLoading: true,
-    api.get('/todos')
-        .then(response => {
-            dispatch({type: 'GET_TODOS_SUCCESS', payload: { todos: response.todos }}) // isLoading: false, todos: payload.todos
-        })
-        .catch(response => {
-            dispatch({type: 'GET_TODOS_FAILURE' // isLoading: false, todos: []
-        })
-
-    // actionCreators
-    function getTodos(dispatch, getState) {
-        dispatch({type: 'GET_TODOS_REQUEST'}) // isLoading: true,
-        api.get('/todos')
-        .then(response => {
-            dispatch({type: 'GET_TODOS_SUCCESS', payload: { todos: response.todos }}) // isLoading: false, todos: payload.todos
-        })
-        .catch(response => {
-            dispatch({type: 'GET_TODOS_FAILURE' // isLoading: false, todos: []
-        })  
-    }
-*/
-

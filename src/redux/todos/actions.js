@@ -1,4 +1,3 @@
-import axios from 'axios';
 import api from '../../services/api';
 import actionTypes from './actionTypes';
 
@@ -12,6 +11,9 @@ export function addTodo(name, description, expired_at) {
             description,
             expired_at
         })
+            .then(response => {
+                console.log('response', response)
+            })
             .catch(error => {
                 if (error.response && error.response.status === 422) {
                     error.response.data.forEach(validationError => {
@@ -52,7 +54,6 @@ export function loadTodos(currentPage = 1) {
                 })
             })
             .catch(error => {
-                // console.log('GET todos error', error);
                 dispatch({
                     type: actionTypes.LOAD_ITEMS_FAILURE,
                 })
@@ -106,19 +107,3 @@ export function changeTodo(id, name, is_done, description) {
     }
 }
 
-// export function loadTodoById(id) {
-//     return (dispatch) => {
-//         dispatch({ type: actionTypes.LOAD_ITEM_BY_ID_REQUEST });
-
-//         api.get(`/tasks/${id}`)
-//             .then(response => {
-//                 dispatch({
-//                     type: actionTypes.LOAD_ITEM_BY_ID_SUCCESS,
-//                     payload: {
-//                         id,
-//                         responseData: response.data
-//                     }
-//                 })
-//             })
-//     }
-// }

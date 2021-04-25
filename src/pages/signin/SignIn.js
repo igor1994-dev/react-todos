@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import authTypes from '../../redux/auth/actionTypes';
 import * as authActions from '../../redux/auth/actions';
 import Preloader from '../../components/Preloader';
 
-
 function SignIn(props) {
-    const {signin, isAuth, isLoading} = props;
-console.log('props signin',isAuth, isLoading)
+
+    const { signin, isAuth, isLoading } = props;
     const [authEmail, setAuthEmail] = useState('');
     const [authPassword, setAuthPassword] = useState('');
 
@@ -18,33 +16,12 @@ console.log('props signin',isAuth, isLoading)
         signin(authEmail, authPassword);
     }
 
-
-    // function logIn(event) {
-    //     event.preventDefault();
-    //     const emailCheck = props.users.list.find(item => item.login === authEmail);
-    //     const passwordCheck = props.users.list.find(item => item.password === authPassword);
-
-    //     if ((typeof emailCheck === "undefined") || (typeof passwordCheck === "undefined")) {
-    //         alert('The login or password is incorrect')
-    //     } else if ((authEmail === emailCheck.login) & (authPassword === passwordCheck.password)) {
-    //         props.dispatch({
-    //             type: authTypes.AUTH_SUCCESS,
-    //             payload: { email: authEmail }
-    //             // email: authEmail
-    //         })
-    //         setAuthEmail('');
-    //         setAuthPassword('');
-    //     }
-    // }
-
     if (isAuth) return <Redirect to="/todos" />
-    // if (props.auth.isAuth) return <Redirect to="/todos" />
-
 
     return (
         <div className="container">
 
-            <Preloader isLoading={isLoading}/>
+            <Preloader isLoading={isLoading} />
 
             <h1 className="text-center">Sign in</h1>
 
@@ -72,10 +49,7 @@ console.log('props signin',isAuth, isLoading)
                     />
                 </Form.Group>
 
-                <Button variant="primary" type="submit"
-                // onClick={logIn}
-                >Log In
-                </Button>
+                <Button variant="primary" type="submit">Log In</Button>
 
                 <Link to='/signup'>
                     <Button variant="primary" type="submit" className="ml-2">Sign Up</Button>
@@ -87,14 +61,11 @@ console.log('props signin',isAuth, isLoading)
 
 function mapStateToProps(state) {
     return {
-        // auth: state.auth,
         isAuth: state.auth.isAuth,
         isLoading: state.auth.isLoading,
         users: state.users
     }
 }
-
-
 
 const mapDispatchToProps = {
     signin: authActions.signin

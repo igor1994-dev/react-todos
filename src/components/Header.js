@@ -6,7 +6,6 @@ import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 function Header(props) {
-
     return (
         <div className="container header">
             <div className="row">

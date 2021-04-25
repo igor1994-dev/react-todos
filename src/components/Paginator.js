@@ -1,7 +1,6 @@
 import React from 'react';
 import '../App.css';
 
-
 function Paginator(props) {
 
     const { pageSize, todosTotalCount, currentPage, setCurrentPage } = props;
@@ -12,9 +11,6 @@ function Paginator(props) {
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
     }
-    // console.log('pagination ss', props)
-
-
 
     return (
         <div className="pagination-wrap">

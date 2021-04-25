@@ -10,7 +10,6 @@ export function signup(email, password) {
             password,
         })
             .then(response => {
-                // console.log('res', response);
                 dispatch({ type: actionTypes.SIGNUP_SUCCESS });
             })
             .catch(error => {
@@ -36,8 +35,8 @@ export function signin(email, password) {
         })
             .then(response => {
                 const responseToken = "Bearer " + response.data.token;
-                // console.log('responseToken',responseToken)
                 api.defaults.headers.common['Authorization'] = responseToken;
+
                 dispatch({
                     type: actionTypes.AUTH_SUCCESS,
                     payload: { email: email, token: responseToken }
@@ -52,15 +51,6 @@ export function signin(email, password) {
             })
     }
 }
-
-
-
-
-
-
-
-
-
 
 export function logout() {
     return {

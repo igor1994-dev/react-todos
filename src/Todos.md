@@ -1,3 +1,3 @@
-- [ ] check if user is already registraited
-- [ ] add preloader
-- [ ] put token into header
+- [x] check if user is already registraited
+- [x] add preloader
+- [x] put token into header

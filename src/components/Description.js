@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import '../App.css';
 
 function Description(props) {
-    // let descriptionSliced;
-    // props.description.length > 100 ? descriptionSliced = props.description.slice(0, 100) : descriptionSliced = props.description;
 
     const descriptionSliced = props.description.slice(0, 100);
 
