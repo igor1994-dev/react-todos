@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import '../App.css';
 
 function FileUpload(props) {
-    const { filesUpload, todoId } = props;
+    const { filesUpload, id } = props;
+
     const [drag, setDrag] = useState(false);
 
     function dragStartHandler(event) {
@@ -25,7 +26,7 @@ function FileUpload(props) {
         // }
         formData.append('file', files[0])
 
-        filesUpload(formData, todoId);
+        filesUpload(formData, id);
     }
 
     return (
