@@ -5,9 +5,10 @@ import * as todosActions from '../../redux/todos/actions';
 import api from '../../services/api';
 import FileUpload from '../../components/FileUpload';
 import FileItem from '../../components/FileItem';
-
 import Modal from '../../components/modal/Modal';
 import { Link } from 'react-router-dom';
+
+import Comment from '../../components/Comment';
 
 
 function TodoEdit(props) {
@@ -121,6 +122,11 @@ function TodoEdit(props) {
                     />)
                 }
             </ul>
+
+
+            <Comment id={todoId}/>
+
+
 
             <Button className="mr-1"
                 variant="outline-success"

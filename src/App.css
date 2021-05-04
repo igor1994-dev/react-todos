@@ -90,7 +90,6 @@ display: none;
   width: 100%;
   height: 100%;
   background-color: #F8F8F8AD;
-  /* background-color: rgba(173, 121, 121, 0.8); */
 }
 .preloader {
   position: absolute;
@@ -124,29 +123,6 @@ display: none;
   color: #fff
 }
 
-/* .drop-area {
-  font-size: 25px;
-  width: 100%;
-  height: 100px;
-  border: 2px solid #343a40;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-  margin-top: 10px;
-}
-.drag-area {
-  font-size: 25px;
-  width: 100%;
-  height: 100px;
-  border: 2px dashed #343a40;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px;
-  margin-top: 10px;
-} */
-
 .file-list{
   list-style-type: none;
 }
@@ -178,8 +154,6 @@ display: none;
   color: #6c757d;
   font-style: italic;
 }
-
-
 
 .dropzone-wrap {
   display: flex;
@@ -214,26 +188,67 @@ display: none;
   display: none;
 }
 
-
-
-
-/* .modal-wrap {
-  height: 100%;
+.add-comment-btn {
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  position: fixed;
-  top: 0;
-  left: 0;
+  height: 30px;
+  padding: 0;
+  border: 1px solid black;
+  background-color: transparent;
+  line-height: 100%;
+}
+.add-comment-btn:hover {
+  color: #fff;
+  background-color: #343a40;
+}
+
+.comment-btn {
+  color: #212529;
+  height: 40px;
+  width: 100%;
+  border: 1px solid #343a40;
+  margin-bottom: 5px;
+}
+.comment-btn:hover {
+  color: #fff;
+  background-color: #343a40;
+}
+
+.comments-wrap {
+  border: 2px solid #343a40;
+  background-color: #fafafa;
+}
+.comment-item {
+  border: 1px solid #343a40;
+  margin-bottom: 5px;
+  background-color: rgb(223, 213, 219);
+}
+.comment {
+  list-style-type: none;
+}
+
+.change-comment {
+  width: 87%;
+  background-color: #bdbdbd;
+}
+
+.edit-comment-save {
+  background-color: #fafafa;
+  color: #000;
+  height: 30px;
+  width: 50px;
+  border: 1px solid #343a40;
+  border-radius: 15px;
+  margin-left: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 5;
+}
+.edit-comment-save:hover {
+  background-color: green;
+  color: #fff;
 }
 
-.modal-content {
+.edit-comment-wrap {
   display: flex;
-  justify-content: space-between;
-width: 500px;
-height: 500px;
-background-color: red;
-} */
+  align-items: center;
+}

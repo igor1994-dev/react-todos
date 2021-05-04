@@ -74,7 +74,7 @@ export function deleteTodo(id, setModal) {
                 dispatch({ type: actionTypes.DELETE_ITEM, payload: { id } })
             })
             .catch(error => {
-                console.log('setModal', setModal)
+                // console.log('setModal', setModal)
                 if (error.response.status === 404) {
                     setModal({ isOpen: true, text: error.response.data.notification })
                 }
