@@ -19,7 +19,7 @@ const initialState = {
 function todos(state = initialState, action) {
     const payload = action.payload;
 
-    console.log('state', state)
+    // console.log('state', state)
     switch (action.type) {
         case todosTypes.ADD_ITEM:
             return {

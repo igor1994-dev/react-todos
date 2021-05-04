@@ -5,21 +5,38 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as todosActions from '../../redux/todos/actions';
 
+import Modal from '../../components/modal/Modal';
+
+
 function TodoNew(props) {
     const { addTodo } = props;
 
     const [todoTitle, setTodoTitle] = useState('');
     const [todoDescription, setTodoDescription] = useState('');
 
+    const [modal, setModal] = useState({
+        isOpen: false,
+        text: ''
+    });
+    function closeModal() {
+        setModal({
+            isOpen: false,
+            text: ''
+        });
+    }
+
     function handleAddTodo(event) {
         if (event) event.preventDefault();
         if (todoTitle === "" || todoTitle.trim().length === 0 ||
             todoDescription === "" || todoDescription.trim().length === 0) {
-            alert('You can not create empty todo');
+            setModal({
+                isOpen: true,
+                text: 'You can not create empty todo'
+            });
             return;
         }
 
-        addTodo(todoTitle.trim(), todoDescription.trim(), null);
+        addTodo(todoTitle.trim(), todoDescription.trim(), null,     setModal);
         setTodoTitle('');
         setTodoDescription('');
     }
@@ -30,6 +47,9 @@ function TodoNew(props) {
 
     return (
         <Fragment>
+
+            {modal.isOpen && <Modal text={modal.text} onClose={closeModal} />}
+
             <h1 className="text-center">add new todo</h1>
 
             <FormControl

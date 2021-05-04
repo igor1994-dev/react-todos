@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import TodoItem from '../../components/TodoItem';
 import Header from '../../components/Header';
 import { Button } from 'react-bootstrap';
@@ -7,23 +7,39 @@ import { connect } from 'react-redux';
 import * as todosActions from '../../redux/todos/actions';
 import Preloader from '../../components/Preloader';
 import Paginator from '../../components/Paginator';
+import Modal from '../../components/modal/Modal';
 
 
 function Todos(props) {
     const { todos, loadTodos, deleteTodo, pageSize, todosTotalCount, currentPage, changeTodo } = props;
 
-    useEffect(() => { loadTodos() }, [])
+    const [modal, setModal] = useState({
+        isOpen: false,
+        text: ''
+    });
+    function closeModal() {
+        setModal({
+            isOpen: false,
+            text: ''
+        });
+    }
+
+    useEffect(() => { 
+        loadTodos() 
+    }, [])
 
     function onPaginationChange(page) {
         loadTodos(page);
     }
 
     function deleteItem(id) {
-        deleteTodo(id)
+        deleteTodo(id, setModal)
     }
 
     return (
         <div className="container">
+
+            {modal.isOpen && <Modal text={modal.text} onClose={closeModal} />}
 
             <Preloader isLoading={props.todos.isLoading} />
 
@@ -32,7 +48,7 @@ function Todos(props) {
             <h1 className="text-center">Todos</h1>
 
             <Paginator pageSize={pageSize}
-                todosTotalCount={todosTotalCount}
+                totalCount={todosTotalCount}
                 currentPage={currentPage}
                 setCurrentPage={onPaginationChange}
             />

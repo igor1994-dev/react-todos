@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import * as authActions from '../../redux/auth/actions';
 import Preloader from '../../components/Preloader';
+import Modal from '../../components/modal/Modal';
+
 
 function SignIn(props) {
 
@@ -11,15 +13,30 @@ function SignIn(props) {
     const [authEmail, setAuthEmail] = useState('');
     const [authPassword, setAuthPassword] = useState('');
 
+    const [modal, setModal] = useState({
+        isOpen: false,
+        text: ''
+    });
+    function closeModal() {
+        setModal({
+            isOpen: false,
+            text: ''
+        });
+    }
+
+
     function handleLogin(event) {
         event.preventDefault();
-        signin(authEmail, authPassword);
+        signin(authEmail, authPassword, setModal);
     }
 
     if (isAuth) return <Redirect to="/todos" />
 
     return (
         <div className="container">
+
+            {modal.isOpen && <Modal text={modal.text} onClose={closeModal} />}
+
 
             <Preloader isLoading={isLoading} />
 

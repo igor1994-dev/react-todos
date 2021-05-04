@@ -3,10 +3,10 @@ import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as authActions from '../../redux/auth/actions';
-
 import '../../App.css';
-
 import Preloader from '../../components/Preloader';
+
+import Modal from '../../components/modal/Modal';
 
 function SignUp(props) {
     const { isLoading, signup } = props;
@@ -16,13 +16,28 @@ function SignUp(props) {
 
     function handleSubmit(event) {
         event.preventDefault();
-        signup(userEmail, userPassword);
+        signup(userEmail, userPassword, setModal);
     }
+
+    const [modal, setModal] = useState({
+        isOpen: false,
+        text: ''
+    });
+    function closeModal() {
+        setModal({
+            isOpen: false,
+            text: ''
+        });
+    }
+
 
     if (isRedirect) return <Redirect to="/" />
 
     return (
         <div className="container">
+
+            {modal.isOpen && <Modal text={modal.text} onClose={closeModal} />}
+
             <h1 className="text-center">Sign up</h1>
 
             <Preloader isLoading={isLoading} />

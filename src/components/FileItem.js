@@ -16,7 +16,7 @@ function FileItem(props) {
                     <div>Creation date: {created_at}</div>
 
                     {isImg &&
-                        <img className="download-img" src={`http://demoapi.rexsoftproduction.com/api/files/show/${name}`} />
+                        <img className="download-img" alt='' src={`http://demoapi.rexsoftproduction.com/api/files/show/${name}`} />
                     }
                     {!isImg &&
                         <div className="hidden-preview">The file preview can not be shown</div>

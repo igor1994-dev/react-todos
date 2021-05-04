@@ -1,7 +1,7 @@
 import api from '../../services/api';
 import actionTypes from './actionTypes';
 
-export function signup(email, password) {
+export function signup(email, password, setModal) {
     return (dispatch, getState) => {
         dispatch({ type: actionTypes.SIGNUP_REQUEST });
 
@@ -17,7 +17,10 @@ export function signup(email, password) {
 
                 if (error.response && error.response.status === 422) {
                     error.response.data.forEach(validationError => {
-                        alert(validationError.message);
+                        setModal({
+                            isOpen: true,
+                            text: validationError.message
+                        })
                     })
                 }
 
@@ -25,7 +28,7 @@ export function signup(email, password) {
     }
 }
 
-export function signin(email, password) {
+export function signin(email, password, setModal) {
     return (dispatch, getState) => {
         dispatch({ type: actionTypes.SIGNIN });
 
@@ -46,7 +49,10 @@ export function signin(email, password) {
                 dispatch({ type: actionTypes.AUTH_FAILURE })
 
                 if (error.response) {
-                    alert(error.response.status + ' ' + error.response.data.notification)
+                    setModal({
+                        isOpen: true,
+                        text: error.response.status + ' ' + error.response.data.notification
+                    })
                 }
             })
     }

@@ -3,8 +3,8 @@ import '../App.css';
 
 function Paginator(props) {
 
-    const { pageSize, todosTotalCount, currentPage, setCurrentPage } = props;
-    let pagesCount = Math.ceil(todosTotalCount / pageSize);
+    const { pageSize, totalCount, currentPage, setCurrentPage } = props;
+    let pagesCount = Math.ceil(totalCount / pageSize);
 
     let pages = [];
 

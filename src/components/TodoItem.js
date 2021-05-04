@@ -5,6 +5,7 @@ import Description from './Description';
 import { withRouter } from 'react-router';
 
 function TodoItem({ description, creationDate, text, id, onDeleteItem, history, match, changeTodo, is_done }) {
+
   function handleDelete() {
     onDeleteItem(id);
   }
@@ -14,8 +15,11 @@ function TodoItem({ description, creationDate, text, id, onDeleteItem, history, 
     classNames.push('done')
   }
 
+
+
   return (
     <li className="todo">
+
       <div className="container px-0 mb-3 item-wrap">
 
         <div className="row">

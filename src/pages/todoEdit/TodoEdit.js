@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { FormControl, Form, Button } from 'react-bootstrap';
-import todosTypes from '../../redux/todos/actionTypes';
-
 import * as todosActions from '../../redux/todos/actions';
-
 import api from '../../services/api';
 import FileUpload from '../../components/FileUpload';
-
 import FileItem from '../../components/FileItem';
+
+import Modal from '../../components/modal/Modal';
+import { Link } from 'react-router-dom';
 
 
 function TodoEdit(props) {
@@ -21,10 +20,21 @@ function TodoEdit(props) {
 
     const [files, setFiles] = useState([]);
 
+    const [modal, setModal] = useState({
+        isOpen: false,
+        text: ''
+    });
+    function closeModal() {
+        setModal({
+            isOpen: false,
+            text: ''
+        });
+    }
+
     function filesUpload(formData, id) {
         api.post(`/files/upload/tasks/${id}`, formData)
             .then(response => {
-                alert('File has been successfully uploaded');
+                setModal({ isOpen: true, text: 'File has been successfully uploaded' });
 
                 setFiles([...files, {
                     id: Date.now(),
@@ -35,9 +45,11 @@ function TodoEdit(props) {
             .catch(error => {
                 if (error.response && error.response.status === 422) {
                     error.response.data.forEach(validationError => {
-                        alert(validationError.message);
+                        setModal({ isOpen: true, text: validationError.message });
                     })
                 }
+                if (error.response.status === 413) setModal({ isOpen: true, text: error.response.statusText });
+
             })
     }
 
@@ -67,17 +79,19 @@ function TodoEdit(props) {
 
     function changeTodoHandler(event) {
         event.preventDefault();
-        changeTodo(
-            todoId,
+        changeTodo(todoId,
             todoTitleChanged.trim(),
             is_done,
-            todoDescriptionChanged.trim()
+            todoDescriptionChanged.trim(),
+            setModal
         )
-        props.history.push('/todos');
+        // props.history.push('/todos');
     }
 
     return (
         <>
+            {modal.isOpen && <Modal text={modal.text} onClose={closeModal} />}
+
             <h1 className='text-center'>Todo id: {props.match.params.id}</h1>
 
             <FormControl
@@ -108,11 +122,15 @@ function TodoEdit(props) {
                 }
             </ul>
 
-            <Button
+            <Button className="mr-1"
                 variant="outline-success"
                 type="submit"
                 onClick={changeTodoHandler}
             >Save changes</Button>
+
+            <Link to='/todos'>
+                <Button variant="outline-success">Go back to Todos</Button>{' '}
+            </Link>
         </>
     )
 }

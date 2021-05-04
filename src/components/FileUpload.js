@@ -1,47 +1,45 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../App.css';
 
 function FileUpload(props) {
     const { filesUpload, id } = props;
 
-    const [drag, setDrag] = useState(false);
-
     function dragStartHandler(event) {
         event.preventDefault();
-        setDrag(true);
+        event.stopPropagation()
     }
     function dragLeaveHandler(event) {
         event.preventDefault();
-        setDrag(false);
+        event.stopPropagation()
     }
 
     function onDropHandler(event) {
         event.preventDefault();
-        let files = [...event.dataTransfer.files];
-        setDrag(false);
+        event.stopPropagation()
+        const loadedFile = event.dataTransfer ? event.dataTransfer.files : event.target.files;
 
         const formData = new FormData();
-        formData.append('file', files[0])
+        formData.append('file', loadedFile[0])
 
         filesUpload(formData, id);
     }
 
     return (
-        <div className="file-upload">
-            {drag
-                ? <div className="drop-area"
+        <>
+            <label className="dropzone-wrap" htmlFor="file-input">
+                <div className="dropzone" tabIndex="0"
                     onDragStart={event => dragStartHandler(event)}
                     onDragLeave={event => dragLeaveHandler(event)}
                     onDragOver={event => dragStartHandler(event)}
                     onDrop={event => onDropHandler(event)}
-                >Drop files to upload</div>
-                : <div className="drag-area"
-                    onDragStart={event => dragStartHandler(event)}
-                    onDragLeave={event => dragLeaveHandler(event)}
-                    onDragOver={event => dragStartHandler(event)}
-                >Drag files to upload</div>
-            }
-        </div>
+                >
+                    <p className="dropzone-inscription">Drag 'n' drop some files here, or click to select files</p>
+                </div>
+            </label>
+
+            <input id="file-input" className="file-upload" type="file" autoComplete="off" tabIndex="-1"
+                onChange={onDropHandler} />
+        </>
     )
 }
 
