@@ -56,13 +56,13 @@ function Todos(props) {
             {
                 <ul className="pl-0">
                     {todos.list.map(item => <TodoItem
+                        {...item}
                         key={item.id}
                         creationDate={item.created_at}
-                        description={item.description}
                         text={item.name}
-                        {...item}
                         onDeleteItem={deleteItem}
                         changeTodo={changeTodo}
+                        setModal={setModal}
                     />)}
                 </ul>
             }

@@ -1,5 +1,6 @@
 import api from '../../services/api';
 import actionTypes from './actionTypes';
+import logger from '../../services/logger';
 
 export function signup(email, password, setModal) {
     return (dispatch, getState) => {
@@ -13,6 +14,7 @@ export function signup(email, password, setModal) {
                 dispatch({ type: actionTypes.SIGNUP_SUCCESS });
             })
             .catch(error => {
+                logger(error);
                 dispatch({ type: actionTypes.SIGNUP_FAILURE });
 
                 if (error.response && error.response.status === 422) {
@@ -46,6 +48,7 @@ export function signin(email, password, setModal) {
                 })
             })
             .catch(error => {
+                logger(error);
                 dispatch({ type: actionTypes.AUTH_FAILURE })
 
                 if (error.response) {

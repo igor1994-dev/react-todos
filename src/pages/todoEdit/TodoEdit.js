@@ -9,7 +9,7 @@ import Modal from '../../components/modal/Modal';
 import { Link } from 'react-router-dom';
 
 import Comment from '../../components/Comment';
-
+import Paginator from '../../components/Paginator';
 
 function TodoEdit(props) {
     const { changeTodo, is_done } = props;
@@ -20,6 +20,12 @@ function TodoEdit(props) {
     const [todoDescriptionChanged, setTodoDescriptionChanged] = useState('');
 
     const [files, setFiles] = useState([]);
+
+    const [filesPage, setFilesPage] = useState({
+        pageSize: 10,
+        totalCount: 0,
+        currentPage: 1
+    });
 
     const [modal, setModal] = useState({
         isOpen: false,
@@ -41,7 +47,7 @@ function TodoEdit(props) {
                     id: Date.now(),
                     created_at: new Date().toLocaleString(),
                     name: response.data
-                }])
+                }]);
             })
             .catch(error => {
                 if (error.response && error.response.status === 422) {
@@ -63,11 +69,35 @@ function TodoEdit(props) {
             })
     }
 
-    function loadTodoFiles(id) {
-        api.get(`/tasks/${id}/files`)
+    // function loadTodoFiles(id) {
+    //     api.get(`/tasks/${id}/files`)
+    //         .then(response => {
+    //             setFiles([...response.data.data])
+    //             console.log('response', response)
+
+    //         })
+    // }
+
+
+    function loadTodoFiles(id, currentPage = 1) {
+        const offset = currentPage === 1 ? 0 : currentPage * filesPage.pageSize - filesPage.pageSize;
+
+        api.get(`/tasks/${id}/files`, {
+            params: {
+                limit: filesPage.pageSize,
+                offset,
+            }
+        })
             .then(response => {
                 setFiles([...response.data.data])
+                // console.log('response', response)
+                setFilesPage({ ...filesPage, totalCount: response.data.total, currentPage: currentPage })
             })
+    }
+
+    function onFilesPageChange(page) {
+        loadTodoFiles(todoId, page);
+        // console.log('sssasa', filesPage)
     }
 
     useEffect(() => {
@@ -123,8 +153,14 @@ function TodoEdit(props) {
                 }
             </ul>
 
+            <Paginator
+                pageSize={filesPage.pageSize}
+                totalCount={filesPage.totalCount}
+                currentPage={filesPage.currentPage}
+                setCurrentPage={onFilesPageChange}
+            />
 
-            <Comment id={todoId}/>
+            <Comment id={todoId} />
 
 
 

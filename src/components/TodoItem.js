@@ -4,7 +4,7 @@ import '../App.css';
 import Description from './Description';
 import { withRouter } from 'react-router';
 
-function TodoItem({ description, creationDate, text, id, onDeleteItem, history, match, changeTodo, is_done }) {
+function TodoItem({ description, creationDate, text, id, onDeleteItem, history, match, changeTodo, is_done, setModal }) {
 
   function handleDelete() {
     onDeleteItem(id);
@@ -28,7 +28,7 @@ function TodoItem({ description, creationDate, text, id, onDeleteItem, history, 
               aria-label="Checkbox for following text input"
 
               checked={is_done}
-              onChange={() => changeTodo(id, text, !is_done, description)}
+              onChange={() => changeTodo(id, text, !is_done, description, setModal)}
             />
           </div>
 

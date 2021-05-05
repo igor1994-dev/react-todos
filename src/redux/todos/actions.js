@@ -1,5 +1,6 @@
 import api from '../../services/api';
 import actionTypes from './actionTypes';
+import logger from '../../services/logger';
 
 export function addTodo(name, description, expired_at, setModal) {
     return (dispatch, getState) => {
@@ -15,6 +16,8 @@ export function addTodo(name, description, expired_at, setModal) {
                 // console.log('response', response)
             })
             .catch(error => {
+                logger(error);
+
                 if (error.response && error.response.status === 422) {
                     error.response.data.forEach(validationError => {
                         // console.log('seeeetMODAL', setModal)
@@ -58,6 +61,7 @@ export function loadTodos(currentPage = 1) {
                 })
             })
             .catch(error => {
+                logger(error);
                 dispatch({
                     type: actionTypes.LOAD_ITEMS_FAILURE,
                 })
@@ -74,7 +78,7 @@ export function deleteTodo(id, setModal) {
                 dispatch({ type: actionTypes.DELETE_ITEM, payload: { id } })
             })
             .catch(error => {
-                // console.log('setModal', setModal)
+                logger(error);
                 if (error.response.status === 404) {
                     setModal({ isOpen: true, text: error.response.data.notification })
                 }
@@ -103,13 +107,14 @@ export function changeTodo(id, name, is_done, description, setModal) {
                 if (response.status === 200) setModal({ isOpen: true, text: response.data.notification })
             })
             .catch(error => {
+                logger(error);
                 if (error.response && error.response.status === 422) {
                     error.response.data.forEach(validationError => {
                         setModal({ isOpen: true, text: validationError.message })
-                        // alert(error.response.status + ' ' + validationError.message);
                     })
-                } else if (error.response.status === 404) {
-                    // alert(error.response.status + ' ' + error.response.data.notification);
+                } else if (error.response && error.response.status === 404) {
+                    setModal({ isOpen: true, text: error.response.data.notification })
+                } else if (error.response && error.response.status === 400) {
                     setModal({ isOpen: true, text: error.response.data.notification })
                 }
             })
