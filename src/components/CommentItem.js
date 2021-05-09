@@ -39,7 +39,6 @@ function CommentItem(props) {
                                 />
                                 <button className="edit-comment-save" onClick={editCommentHandler}>save</button>
                             </div>
-
                         }
 
                     </div>

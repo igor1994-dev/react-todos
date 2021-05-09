@@ -9,8 +9,13 @@ function Paginator(props) {
     let pages = [];
 
     for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i)
+        pages.push(i);
     }
+
+    // console.log('page', pages)
+    // console.log('totalCount', totalCount)
+    // console.log('currentPage', currentPage)
+
 
     return (
         <div className="pagination-wrap">

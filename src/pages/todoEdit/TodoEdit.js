@@ -7,7 +7,7 @@ import FileUpload from '../../components/FileUpload';
 import FileItem from '../../components/FileItem';
 import Modal from '../../components/modal/Modal';
 import { Link } from 'react-router-dom';
-
+import logger from '../../services/logger';
 import Comment from '../../components/Comment';
 import Paginator from '../../components/Paginator';
 
@@ -15,7 +15,7 @@ function TodoEdit(props) {
     const { changeTodo, is_done } = props;
     const todoId = props.match.params.id;
 
-    const [responseData, setReaponseData] = useState({})
+    const [responseData, setResponseData] = useState({});
     const [todoTitleChanged, setTodoTitleChanged] = useState(``);
     const [todoDescriptionChanged, setTodoDescriptionChanged] = useState('');
 
@@ -41,43 +41,34 @@ function TodoEdit(props) {
     function filesUpload(formData, id) {
         api.post(`/files/upload/tasks/${id}`, formData)
             .then(response => {
-                setModal({ isOpen: true, text: 'File has been successfully uploaded' });
+                if (response.status === 201) {
+                    setModal({ isOpen: true, text: 'File has been successfully uploaded' });
+                    setFilesPage({
+                        ...filesPage, totalCount: filesPage.totalCount + 1
+                    });
+                }
+                loadTodoFiles(id);
 
-                setFiles([...files, {
-                    id: Date.now(),
-                    created_at: new Date().toLocaleString(),
-                    name: response.data
-                }]);
             })
             .catch(error => {
+                logger(error);
                 if (error.response && error.response.status === 422) {
                     error.response.data.forEach(validationError => {
                         setModal({ isOpen: true, text: validationError.message });
                     })
                 }
-                if (error.response.status === 413) setModal({ isOpen: true, text: error.response.statusText });
-
+                if (error.response && error.response.status === 413) setModal({ isOpen: true, text: error.response.statusText });
             })
     }
 
     function loadTodoById(id) {
         api.get(`/tasks/${id}`)
             .then(response => {
-                setReaponseData(response.data);
+                setResponseData(response.data);
                 setTodoTitleChanged(response.data.name);
-                setTodoDescriptionChanged(response.data.description)
+                setTodoDescriptionChanged(response.data.description);
             })
     }
-
-    // function loadTodoFiles(id) {
-    //     api.get(`/tasks/${id}/files`)
-    //         .then(response => {
-    //             setFiles([...response.data.data])
-    //             console.log('response', response)
-
-    //         })
-    // }
-
 
     function loadTodoFiles(id, currentPage = 1) {
         const offset = currentPage === 1 ? 0 : currentPage * filesPage.pageSize - filesPage.pageSize;
@@ -89,15 +80,13 @@ function TodoEdit(props) {
             }
         })
             .then(response => {
-                setFiles([...response.data.data])
-                // console.log('response', response)
-                setFilesPage({ ...filesPage, totalCount: response.data.total, currentPage: currentPage })
+                setFiles([...response.data.data]);
+                setFilesPage({ pageSize: 10, totalCount: parseInt(response.data.total), currentPage: currentPage });
             })
     }
 
     function onFilesPageChange(page) {
         loadTodoFiles(todoId, page);
-        // console.log('sssasa', filesPage)
     }
 
     useEffect(() => {
@@ -161,8 +150,6 @@ function TodoEdit(props) {
             />
 
             <Comment id={todoId} />
-
-
 
             <Button className="mr-1"
                 variant="outline-success"

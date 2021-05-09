@@ -4,6 +4,8 @@ import '../App.css';
 import CommentItem from './CommentItem';
 import api from '../services/api';
 import Modal from './modal/Modal';
+import logger from '../services/logger';
+import Paginator from './Paginator';
 
 
 function Comment(props) {
@@ -11,57 +13,67 @@ function Comment(props) {
     const [content, setContent] = useState('');
     const [comments, setComments] = useState([]);
 
+    const [comentsPage, setComentsPage] = useState({
+        pageSize: 10,
+        totalCount: 0,
+        currentPage: 1
+    });
+
     useEffect(() => {
         loadComments(id);
-    }, [])
+    }, []);
 
     function deleteComment(todoId, commentId) {
         api.delete(`/tasks/${todoId}/comments/${commentId}`)
             .then(response => {
                 if (response.status === 200) setModal({ isOpen: true, text: response.data.notification })
                 const currentComments = comments.filter(i => i.id !== commentId);
-                setComments(currentComments)
+                setComments(currentComments);
             })
             .catch((error) => {
+                logger(error);
                 if (error.response.status === 404) {
-                    setModal({ isOpen: true, text: error.response.data.notification })
+                    setModal({ isOpen: true, text: error.response.data.notification });
                 }
             })
     }
 
-
-    function addComment(id, content) {
+    function addComment() {
         api.post(`/tasks/${id}/comments`, {
             content
         })
             .then(response => {
-                if (response.status === 201) setModal({ isOpen: true, text: response.data.notification })
+                if (response.status === 201) {
+                    setModal({ isOpen: true, text: response.data.notification });
+                    setComentsPage({
+                        ...comentsPage, totalCount: comentsPage.totalCount + 1
+                    });
+                }
             })
-            .then(() => {
-                setComments(
-                    [...comments, {
-                        // id: Date.now(),
-                        id: comments[comments.length - 1].id + 1,
-                        content: content,
-                        created_at: new Date().toLocaleString()
-                    }]
-                )
-            })
+            .then(() => loadComments(id))
             .catch(error => {
+                logger(error);
                 if (error.response && error.response.status === 422) {
                     error.response.data.forEach(validationError => {
                         setModal({ isOpen: true, text: validationError.message })
                     })
                 }
-
             })
-        // setContent('');
+        setContent('mmm');
     }
 
-    function loadComments(id) {
-        api.get(`/tasks/${id}/comments`)
+    function loadComments(id, currentPage = 1) {
+        const offset = currentPage === 1 ? 0 : currentPage * comentsPage.pageSize - comentsPage.pageSize;
+
+        api.get(`/tasks/${id}/comments`, {
+            params: {
+                limit: comentsPage.pageSize,
+                offset,
+            }
+        })
             .then(response => {
-                setComments([...response.data.data])
+                setComments([...response.data.data]);
+                setComentsPage({ pageSize: 10, totalCount: parseInt(response.data.total), currentPage: currentPage })
             })
     }
 
@@ -74,6 +86,7 @@ function Comment(props) {
                 loadComments(todoId);
             })
             .catch(error => {
+                logger(error);
                 if (error.response && error.response.status === 422) {
                     error.response.data.forEach(validationError => {
                         setModal({ isOpen: true, text: validationError.message })
@@ -81,8 +94,11 @@ function Comment(props) {
                 }
                 if (error.response.status === 404) setModal({ isOpen: true, text: error.response.data.notification })
                 if (error.response.status === 400) setModal({ isOpen: true, text: error.response.data.notification })
-
             })
+    }
+
+    function onCommentsPageChange(page) {
+        loadComments(id, page);
     }
 
     const [modal, setModal] = useState({
@@ -110,7 +126,7 @@ function Comment(props) {
                     onChange={event => setContent(event.target.value)}
                 />
 
-                <button className="add-comment-btn mb-4" onClick={() => addComment(id, content)}>Add comment</button>
+                <button className="add-comment-btn mb-4" onClick={() => addComment()}>Add comment</button>
 
                 <ul className="pl-0">
                     {comments.map(item => <CommentItem
@@ -123,6 +139,14 @@ function Comment(props) {
                         editComment={editComment} />
                     )}
                 </ul>
+
+                <Paginator
+                    pageSize={comentsPage.pageSize}
+                    totalCount={comentsPage.totalCount}
+                    currentPage={comentsPage.currentPage}
+                    setCurrentPage={onCommentsPageChange}
+                />
+
             </div>
         </div>
     )

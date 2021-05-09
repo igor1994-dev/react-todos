@@ -14,7 +14,10 @@ function UserAccount(props) {
 
     return (
         <>
-            <div className="col-6 user-email">
+            <div className="col-6 user-email-wrap">
+                {/* <div className="user-email">
+                    {props.auth.email}
+                </div> */}
                 {props.auth.email}
             </div>
             <div className="col-2 logout">

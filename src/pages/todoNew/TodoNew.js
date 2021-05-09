@@ -36,7 +36,7 @@ function TodoNew(props) {
             return;
         }
 
-        addTodo(todoTitle.trim(), todoDescription.trim(), null,     setModal);
+        addTodo(todoTitle.trim(), todoDescription.trim(), null, setModal);
         setTodoTitle('');
         setTodoDescription('');
     }
