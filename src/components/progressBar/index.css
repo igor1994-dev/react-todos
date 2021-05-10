@@ -1,0 +1,33 @@
+.progress-bar-background {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    backdrop-filter: blur(10px);
+}
+.progress-bar-container {
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bar {
+    height: 3px;
+    width: 100%;
+    background-color: #e0e0de;
+    margin: 50px;
+}
+
+.load-percentage {
+    /* left: 50%; */
+    top: 40%;  
+    position: absolute;
+    font-family:fantasy;
+    font-size: 20px;
+} 

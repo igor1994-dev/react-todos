@@ -1,7 +1,7 @@
 import React from 'react';
 import api from './services/api';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SignIn from './pages/signin/SignIn';
 import SignUp from './pages/signup/SignUp';
@@ -11,6 +11,7 @@ import TodoNew from './pages/todoNew/TodoNew';
 import TodoEdit from './pages/todoEdit/TodoEdit';
 import NotAuthRoute from './components/customRoute/NotAuthRoute';
 import PrivateRoute from './components/customRoute/PrivateRoute';
+import ProgressBar from './components/progressBar/ProgressBar';
 
 class App extends React.Component {
   componentDidMount() {
@@ -29,6 +30,8 @@ class App extends React.Component {
             <PrivateRoute exact path='/todos' component={Todos} />
             <PrivateRoute exact path='/todos/new' component={TodoNew} />
             <PrivateRoute exact path='/todos/edit/:id?' component={TodoEdit} />
+
+            <Route exact path='/progress' component={ProgressBar} />
           </Switch>
         </Router>
       </div>
@@ -39,7 +42,7 @@ class App extends React.Component {
 
 function mapStateToProps(state) {
   return {
-      token: state.auth.token,
+    token: state.auth.token,
   }
 }
 
