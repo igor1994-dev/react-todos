@@ -1,3 +1,9 @@
 - [x] check if user is already registraited
 - [x] add preloader
 - [x] put token into header
+- [x] add modal HOC
+- [ ] push modal HOC and progressbar
+- [ ] react native
+- [ ] redux-saga
+- [x] add interceptors
+- [ ] HTML Academy

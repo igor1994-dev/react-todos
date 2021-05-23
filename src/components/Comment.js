@@ -6,10 +6,11 @@ import api from '../services/api';
 import Modal from './modal/Modal';
 import logger from '../services/logger';
 import Paginator from './Paginator';
+import { withModal } from '../HOC/withModal';
 
 
 function Comment(props) {
-    const { id } = props; //todo id
+    const { id, modal, setModal, onCloseModal } = props; //todo id
     const [content, setContent] = useState('');
     const [comments, setComments] = useState([]);
 
@@ -101,21 +102,21 @@ function Comment(props) {
         loadComments(id, page);
     }
 
-    const [modal, setModal] = useState({
-        isOpen: false,
-        text: ''
-    });
-    function closeModal() {
-        setModal({
-            isOpen: false,
-            text: ''
-        });
-    }
+    // const [modal, setModal] = useState({
+    //     isOpen: false,
+    //     text: ''
+    // });
+    // function closeModal() {
+    //     setModal({
+    //         isOpen: false,
+    //         text: ''
+    //     });
+    // }
 
     return (
         <div className="comments-wrap mb-4">
             <div className="p-4">
-                {modal.isOpen && <Modal text={modal.text} onClose={closeModal} />}
+                {modal.isOpen && <Modal text={modal.text} onClose={onCloseModal} />}
 
                 <FormControl
                     type="text"
@@ -152,4 +153,4 @@ function Comment(props) {
     )
 }
 
-export default Comment;
+export default withModal(Comment);

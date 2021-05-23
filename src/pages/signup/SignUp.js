@@ -5,11 +5,12 @@ import { Redirect } from 'react-router-dom';
 import * as authActions from '../../redux/auth/actions';
 import '../../App.css';
 import Preloader from '../../components/Preloader';
-
+import { compose } from 'redux';
+import { withModal } from '../../HOC/withModal';
 import Modal from '../../components/modal/Modal';
 
 function SignUp(props) {
-    const { isLoading, signup } = props;
+    const { isLoading, signup, modal, setModal, onCloseModal } = props;
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const [isRedirect, setIsRedirect] = useState(false);
@@ -19,16 +20,16 @@ function SignUp(props) {
         signup(userEmail, userPassword, setModal);
     }
 
-    const [modal, setModal] = useState({
-        isOpen: false,
-        text: ''
-    });
-    function closeModal() {
-        setModal({
-            isOpen: false,
-            text: ''
-        });
-    }
+    // const [modal, setModal] = useState({
+    //     isOpen: false,
+    //     text: ''
+    // });
+    // function closeModal() {
+    //     setModal({
+    //         isOpen: false,
+    //         text: ''
+    //     });
+    // }
 
 
     if (isRedirect) return <Redirect to="/" />
@@ -36,7 +37,7 @@ function SignUp(props) {
     return (
         <div className="container">
 
-            {modal.isOpen && <Modal text={modal.text} onClose={closeModal} />}
+            {modal.isOpen && <Modal text={modal.text} onClose={onCloseModal} />}
 
             <h1 className="text-center">Sign up</h1>
 
@@ -90,4 +91,6 @@ const mapDispatchToProps = {
     signup: authActions.signup
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default compose(connect(mapStateToProps, mapDispatchToProps), withModal)(SignUp);
+
+// export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

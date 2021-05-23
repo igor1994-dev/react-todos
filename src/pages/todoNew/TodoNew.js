@@ -4,26 +4,27 @@ import { FormControl, Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as todosActions from '../../redux/todos/actions';
-
+import { compose } from 'redux';
+import { withModal } from '../../HOC/withModal';
 import Modal from '../../components/modal/Modal';
 
 
 function TodoNew(props) {
-    const { addTodo } = props;
+    const { addTodo, modal, setModal, onCloseModal } = props;
 
     const [todoTitle, setTodoTitle] = useState('');
     const [todoDescription, setTodoDescription] = useState('');
 
-    const [modal, setModal] = useState({
-        isOpen: false,
-        text: ''
-    });
-    function closeModal() {
-        setModal({
-            isOpen: false,
-            text: ''
-        });
-    }
+    // const [modal, setModal] = useState({
+    //     isOpen: false,
+    //     text: ''
+    // });
+    // function closeModal() {
+    //     setModal({
+    //         isOpen: false,
+    //         text: ''
+    //     });
+    // }
 
     function handleAddTodo(event) {
         if (event) event.preventDefault();
@@ -48,7 +49,7 @@ function TodoNew(props) {
     return (
         <Fragment>
 
-            {modal.isOpen && <Modal text={modal.text} onClose={closeModal} />}
+            {modal.isOpen && <Modal text={modal.text} onClose={onCloseModal} />}
 
             <h1 className="text-center">add new todo</h1>
 
@@ -97,4 +98,8 @@ const mapDispatchToProps = {
     addTodo: todosActions.addTodo,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TodoNew);
+export default compose(connect(mapStateToProps, mapDispatchToProps), withModal)(TodoNew);
+
+
+
+// export default connect(mapStateToProps, mapDispatchToProps)(TodoNew);

@@ -8,24 +8,26 @@ import * as todosActions from '../../redux/todos/actions';
 import Preloader from '../../components/Preloader';
 import Paginator from '../../components/Paginator';
 import Modal from '../../components/modal/Modal';
+import { compose } from 'redux';
+import { withModal } from '../../HOC/withModal';
 
 
 function Todos(props) {
-    const { todos, loadTodos, deleteTodo, pageSize, todosTotalCount, currentPage, changeTodo } = props;
+    const { todos, loadTodos, deleteTodo, pageSize, todosTotalCount, currentPage, changeTodo, modal, setModal, onCloseModal } = props;
 
-    const [modal, setModal] = useState({
-        isOpen: false,
-        text: ''
-    });
-    function closeModal() {
-        setModal({
-            isOpen: false,
-            text: ''
-        });
-    }
+    // const [modal, setModal] = useState({
+    //     isOpen: false,
+    //     text: ''
+    // });
+    // function closeModal() {
+    //     setModal({
+    //         isOpen: false,
+    //         text: ''
+    //     });
+    // }
 
-    useEffect(() => { 
-        loadTodos() 
+    useEffect(() => {
+        loadTodos()
     }, [])
 
     function onPaginationChange(page) {
@@ -39,7 +41,7 @@ function Todos(props) {
     return (
         <div className="container">
 
-            {modal.isOpen && <Modal text={modal.text} onClose={closeModal} />}
+            {modal.isOpen && <Modal text={modal.text} onClose={onCloseModal} />}
 
             <Preloader isLoading={props.todos.isLoading} />
 
@@ -93,4 +95,7 @@ const mapDispatchToProps = {
     changeTodo: todosActions.changeTodo
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Todos);
+// export default connect(mapStateToProps, mapDispatchToProps)(Todos);
+
+
+export default compose(connect(mapStateToProps, mapDispatchToProps), withModal)(Todos)

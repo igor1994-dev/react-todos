@@ -16,6 +16,8 @@ import ProgressBar from './components/progressBar/ProgressBar';
 class App extends React.Component {
   componentDidMount() {
     api.defaults.headers.common['Authorization'] = this.props.token;
+    // api.defaults.headers.common['Authorization'] = this.props.token + 'qwe'; 
+
   }
   render() {
 

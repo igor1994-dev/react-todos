@@ -5,24 +5,26 @@ import { Link, Redirect } from 'react-router-dom';
 import * as authActions from '../../redux/auth/actions';
 import Preloader from '../../components/Preloader';
 import Modal from '../../components/modal/Modal';
+import { compose } from 'redux';
+import { withModal } from '../../HOC/withModal';
 
 
 function SignIn(props) {
 
-    const { signin, isAuth, isLoading } = props;
+    const { signin, isAuth, isLoading, modal, setModal, onCloseModal } = props;
     const [authEmail, setAuthEmail] = useState('');
     const [authPassword, setAuthPassword] = useState('');
 
-    const [modal, setModal] = useState({
-        isOpen: false,
-        text: ''
-    });
-    function closeModal() {
-        setModal({
-            isOpen: false,
-            text: ''
-        });
-    }
+    // const [modal, setModal] = useState({
+    //     isOpen: false,
+    //     text: ''
+    // });
+    // function closeModal() {
+    //     setModal({
+    //         isOpen: false,
+    //         text: ''
+    //     });
+    // }
 
 
     function handleLogin(event) {
@@ -35,7 +37,7 @@ function SignIn(props) {
     return (
         <div className="container">
 
-            {modal.isOpen && <Modal text={modal.text} onClose={closeModal} />}
+            {modal.isOpen && <Modal text={modal.text} onClose={onCloseModal} />}
 
 
             <Preloader isLoading={isLoading} />
@@ -88,4 +90,7 @@ const mapDispatchToProps = {
     signin: authActions.signin
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+
+export default compose(connect(mapStateToProps, mapDispatchToProps), withModal)(SignIn);
+
+// export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

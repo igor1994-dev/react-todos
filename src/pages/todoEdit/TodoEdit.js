@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { FormControl, Form, Button } from 'react-bootstrap';
 import * as todosActions from '../../redux/todos/actions';
@@ -10,9 +11,10 @@ import { Link } from 'react-router-dom';
 import logger from '../../services/logger';
 import Comment from '../../components/Comment';
 import Paginator from '../../components/Paginator';
+import { withModal } from '../../HOC/withModal';
 
 function TodoEdit(props) {
-    const { changeTodo, is_done } = props;
+    const { changeTodo, is_done, modal, setModal, onCloseModal } = props;
     const todoId = props.match.params.id;
 
     const [responseData, setResponseData] = useState({});
@@ -27,16 +29,16 @@ function TodoEdit(props) {
         currentPage: 1
     });
 
-    const [modal, setModal] = useState({
-        isOpen: false,
-        text: ''
-    });
-    function closeModal() {
-        setModal({
-            isOpen: false,
-            text: ''
-        });
-    }
+    // const [modal, setModal] = useState({
+    //     isOpen: false,
+    //     text: ''
+    // });
+    // function closeModal() {
+    //     setModal({
+    //         isOpen: false,
+    //         text: ''
+    //     });
+    // }
 
     function filesUpload(formData, id) {
         api.post(`/files/upload/tasks/${id}`, formData)
@@ -110,7 +112,9 @@ function TodoEdit(props) {
 
     return (
         <>
-            {modal.isOpen && <Modal text={modal.text} onClose={closeModal} />}
+            {/* {modal.isOpen && <Modal text={modal.text} onClose={closeModal} />} */}
+            {modal.isOpen && <Modal text={modal.text} onClose={onCloseModal} />}
+
 
             <h1 className='text-center'>Todo id: {props.match.params.id}</h1>
 
@@ -175,4 +179,12 @@ const mapDispatchToProps = {
     changeTodo: todosActions.changeTodo,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TodoEdit);
+// let withModalComponent = withModal(TodoEdit)
+// const TodoEditContainer = connect(mapStateToProps, mapDispatchToProps)(withModalComponent);
+
+
+export default compose(connect(mapStateToProps, mapDispatchToProps), withModal)(TodoEdit);
+
+// export default TodoEditContainer;
+
+// export default connect(mapStateToProps, mapDispatchToProps)(TodoEdit);

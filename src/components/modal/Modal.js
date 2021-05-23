@@ -1,7 +1,6 @@
 import React from 'react';
 import './index.css';
 
-
 function Modal(props) {
     const { text, onClose } = props;
 
@@ -25,11 +24,9 @@ function Modal(props) {
                     </button>
                 </div>
 
-
             </div>
         </div>
     )
 }
-
 
 export default Modal;

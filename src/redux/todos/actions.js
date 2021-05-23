@@ -13,18 +13,19 @@ export function addTodo(name, description, expired_at, setModal) {
             expired_at
         })
             .then(response => {
-                // console.log('response', response)
-            })
+                setModal({
+                    isOpen: true,
+                    text: response.data.notification
+                });            })
             .catch(error => {
                 logger(error);
 
                 if (error.response && error.response.status === 422) {
                     error.response.data.forEach(validationError => {
-                        // console.log('seeeetMODAL', setModal)
                         setModal({
                             isOpen: true,
                             text: validationError.message
-                        })
+                        });
                     })
                 }
             })
@@ -75,12 +76,13 @@ export function deleteTodo(id, setModal) {
 
         api.delete(`/tasks/${id}`)
             .then(response => {
-                dispatch({ type: actionTypes.DELETE_ITEM, payload: { id } })
+                dispatch({ type: actionTypes.DELETE_ITEM, payload: { id } });
+                setModal({ isOpen: true, text: response.data.notification });
             })
             .catch(error => {
                 logger(error);
                 if (error.response.status === 404) {
-                    setModal({ isOpen: true, text: error.response.data.notification })
+                    setModal({ isOpen: true, text: error.response.data.notification });
                 }
             })
 
